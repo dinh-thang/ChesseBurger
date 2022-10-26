@@ -1,0 +1,18 @@
+﻿*) Main function of a validator:
+- remove illegal move from the move list of a piece
+- will be called in player class, where all of the piece position is available
+
+*) DEFAULT VALIDATOR:
+- Check if any cell in the move list contain a similar color piece => remove 
+
+*) CASTLE VALIDATOR:
+- Check if castle move if possible. Remove the castle move from the king if:
+	+ The king is in check
+	+ The king path to castle is in the attack zone of another piece
+	+ The king or (the rook on that side) moved
+
+*) KING CHECKED:
+- Check if the king is checked if the player move the king or
+
+*) PIN VALIDATOR
+- If a piece is under pin:
