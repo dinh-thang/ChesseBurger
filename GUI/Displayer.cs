@@ -8,10 +8,6 @@ namespace ChessBurger.GUI
 {
     public class Displayer
     {
-        public Displayer()
-        {
-        }
-
         // display pieces
         public void DisplayPiece(List<Piece> activePieces)
         {
@@ -24,19 +20,11 @@ namespace ChessBurger.GUI
             }
         }
 
-        // display clicked square
-        public void DisplaySelectedSquare(SelectedSquare square)
-        {
-            int boardX = Extras.WindowXPosToBoardXPos(square.X);
-            int boardY = Extras.WindowYPosToBoardYPos(square.Y);
-
-            SplashKit.DrawBitmap(square.GetBitmap, boardX, boardY);
-        }
-
         // display board starting from x, y
         public void DisplayBoard(Board board)
         {
             SplashKit.DrawBitmap(board.GetBitmap, board.X, board.Y);
+            DisplayBoardIndex();
         }
 
         public void DisplayBoardIndex()

@@ -1,4 +1,4 @@
-﻿namespace ChessBurger.MoveExplorer
+﻿namespace ChessBurger.GameComponents
 {
     public struct Cell
     {

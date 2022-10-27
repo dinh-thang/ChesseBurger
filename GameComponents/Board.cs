@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
-using ChessBurger.Board;
 
-namespace ChessBurger.Board
+namespace ChessBurger.GameComponents
 {
     public class Board : GameObject
     {

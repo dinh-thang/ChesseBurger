@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using ChessBurger.lib;
-using ChessBurger.GUI;
-using ChessBurger.Ultilities;
-using ChessBurger.MoveValidator;
-using System.Linq;
-using ChessBurger.MoveValidator.ValidatorCreator;
+﻿using ChessBurger.GameComponents.Pieces;
+using ChessBurger.Game.GameCommand;
 using ChessBurger.GameComponents;
+using ChessBurger.Ultilities;
+using ChessBurger.GUI;
+using ChessBurger.lib;
+using System.Collections.Generic;
+using System;
 
 namespace ChessBurger.Game
 {
@@ -15,68 +15,62 @@ namespace ChessBurger.Game
         BLACK_WON,
         WHITE_TURN,
         BLACK_TURN,
-    }
-
-    public enum ClickState
-    {
-        FIRST_CLICK,
-        SECOND_CLICK
+        MENU
     }
 
     public class Game
     {
-        private ClickState _clickState = ClickState.SECOND_CLICK;
+        // main window configurations
         private const string MAIN_WINDOW_TITLE = "Chesse Burger";
         private const int MAIN_WINDOW_WIDTH = 900;
         private const int MAIN_WINDOW_HEIGHT = 700;
-        private Displayer _displayer;
-        private Board _board;
         private readonly Window _window;
-        private Turn _moveTurn; 
-        private List<int> _selectedPos;
-        private List<int> _selectedDes;
-        private ValidatorFactory _validatorFactory;
-        private IValidator _defaultValidator;
-        private IValidator _diagonalBlockValidator;
-        private IValidator _linearBlockValidator;
+        // Game instance
+        private static Game _gameInstance;
+        // Game objects
+        private Board _board;
+        private List<Piece> _activePieces;
+        // GUI
+        private Displayer _displayer;
+        // Turn manager
+        private TurnManager _moveTurn;        
+        // commands set up
+        private CommandStatus _commandStat = CommandStatus.NOT_SUCCESSFUL;
+        private Command _validateCommand;
+        private Command _setBlackPieces;
+        private Command _setWhitePieces;
+        private Command _choosePieceCommand;
+        private Command _movePieceCommand;
+        // current possition and desination
+        private Cell _selectedPos;
+        private Cell _selectedDes;
 
-        public Game()
+        private Game()
         {
-            // create main window
+            // init main window
             _window = new Window(MAIN_WINDOW_TITLE, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-
-            // initiate instances
-            _selectedDes = new List<int>();
-            _selectedPos = new List<int>(); 
+            // init displayer
             _displayer = new Displayer();
-            _moveTurn = new Turn();
+            // init turn manager
+            _moveTurn = new TurnManager();
+            // init gameobjects
             _board = new Board();
-            // validators
-            _validatorFactory = new ValidatorFactory();
-            _defaultValidator = _validatorFactory.CreateValidator(ValidatorID.DEFAULT);
-            _diagonalBlockValidator = _validatorFactory.CreateValidator(ValidatorID.DIAGONAL);
-            _linearBlockValidator = _validatorFactory.CreateValidator(ValidatorID.LINEAR);
-
-            // set up validator chain 
-            _diagonalBlockValidator.SetNextValidator(_linearBlockValidator);
-            _linearBlockValidator.SetNextValidator(_defaultValidator);
-
-            // validate the moves of all pieces (initialize)
-            ValidateMove();
+            _activePieces = new List<Piece>();
+            // init setPieces command and execute
+            _setBlackPieces = new SetPiecesCommand(_moveTurn.GetPlayers[0].IsWhite, _activePieces);
+            _setWhitePieces = new SetPiecesCommand(_moveTurn.GetPlayers[1].IsWhite, _activePieces);
+            _setBlackPieces.Execute();
+            _setWhitePieces.Execute();
         }
 
-        // validate pseudo-legal moves
-        public void ValidateMove()
+        // get the game instance
+        public static Game GetInstance()
         {
-            for (int i = 0; i < _moveTurn.GetPlayers[0].GetActivePieces.Count; i++)
+            if (_gameInstance == null)
             {
-                _diagonalBlockValidator.ValidCheck(_moveTurn.GetPlayers[0].GetActivePieces[i], Enumerable.Concat(_moveTurn.GetPlayers[0].GetActivePieces, _moveTurn.GetPlayers[1].GetActivePieces).ToList());
+                _gameInstance = new Game();
             }
-
-            for (int i = 0; i < _moveTurn.GetPlayers[1].GetActivePieces.Count; i++)
-            {
-                _diagonalBlockValidator.ValidCheck(_moveTurn.GetPlayers[1].GetActivePieces[i], Enumerable.Concat(_moveTurn.GetPlayers[0].GetActivePieces, _moveTurn.GetPlayers[1].GetActivePieces).ToList());
-            }
+            return _gameInstance;
         }
 
         public void MainLoop()
@@ -85,47 +79,52 @@ namespace ChessBurger.Game
             {
                 // displays board and pieces
                 _displayer.DisplayBoard(_board);
-                _displayer.DisplayBoardIndex();
-                _displayer.DisplayPiece(_moveTurn.GetPlayers[0].GetActivePieces);
-                _displayer.DisplayPiece(_moveTurn.GetPlayers[1].GetActivePieces);
+                _displayer.DisplayPiece(_activePieces);
 
 
                 SplashKit.ProcessEvents();
 
                 // save the current piece position
-                if (SplashKit.MouseClicked(MouseButton.LeftButton) && _clickState == ClickState.SECOND_CLICK)
+                if (SplashKit.MouseClicked(MouseButton.LeftButton) && _commandStat == CommandStatus.NOT_SUCCESSFUL)
                 {
                     // convert the coordinate on the window to board's coordinate
-                    _selectedPos = new List<int> { Extras.WindowXPosToBoardXPos((int) SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int) SplashKit.MouseY()) };
+                    _selectedPos = new Cell(Extras.WindowXPosToBoardXPos((int)SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int)SplashKit.MouseY()));
 
-                    // return PIECE_SELECTED if the selected pos hold a valid piece, else DESTINATION_SELECTED.
-                    _clickState = _moveTurn.CurrentPlayer.UpdateClickStateOfFirstClick(_selectedPos[0], _selectedPos[1]);
+                    _choosePieceCommand = new ChoosePieceCommand(_selectedPos.X, _selectedPos.Y, _moveTurn.CurrentPlayer.IsWhite, _activePieces);
+
+                    // set the current command to choose piece
+                    _moveTurn.CurrentPlayer.SetCommand(_choosePieceCommand);
+
+                    // return SUCCESSFUL if the selected pos hold a valid piece, else NOT_SUCCESSFUL.
+                    _commandStat = _moveTurn.CurrentPlayer.ExecuteCommand();
                 }
                 // save the destination postion
-                else if (SplashKit.MouseClicked(MouseButton.LeftButton) && _clickState == ClickState.FIRST_CLICK)
+                else if (SplashKit.MouseClicked(MouseButton.LeftButton) && _commandStat == CommandStatus.SUCCESSFUL)
                 {
                     // convert the coordinate on the window to board's coordinate
-                    _selectedDes = new List<int> { Extras.WindowXPosToBoardXPos((int)SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int)SplashKit.MouseY()) };
+                    _selectedDes = new Cell(Extras.WindowXPosToBoardXPos((int)SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int)SplashKit.MouseY()));
 
-                    // check if the selected pos contains any opposite color piece
+                    _movePieceCommand = new MakeMoveCommand(_selectedPos.X, _selectedPos.Y, _selectedDes.X, _selectedDes.Y, _activePieces);
+
+                    // set current command to move
+                    _moveTurn.CurrentPlayer.SetCommand(_movePieceCommand);
 
                     // make the move
-                    bool concretePieceMoved = _moveTurn.CurrentPlayer.Move(_selectedDes[0], _selectedDes[1]);
+                    _commandStat = _moveTurn.CurrentPlayer.ExecuteCommand();
 
                     // make sure a concrete piece is moved to change the turn.
-                    if (concretePieceMoved)
-                    { 
-                        if (_moveTurn.NextPLayer.IsOccupied(_selectedDes[0], _selectedDes[1]))
-                        {
-                            _moveTurn.NextPLayer.RemovePiece(_selectedDes[0], _selectedDes[1]);
-                        }
+                    if (_commandStat == CommandStatus.SUCCESSFUL)
+                    {
+                        Console.WriteLine(_moveTurn._curTurn);
                         _moveTurn.SetNextTurn();
                     }
-                    
                     // reset the click state to default
-                    _clickState = ClickState.SECOND_CLICK; 
-                    _moveTurn.CurrentPlayer.UpdatePiecesPosition();
-                    ValidateMove();
+                    _commandStat = CommandStatus.NOT_SUCCESSFUL;
+
+                    // validate the moves
+                    _validateCommand = new ValidateCommand(_activePieces);
+                    _moveTurn.CurrentPlayer.SetCommand(_validateCommand);
+                    _moveTurn.CurrentPlayer.ExecuteCommand();
                 }
 
 

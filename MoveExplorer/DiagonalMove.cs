@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
+using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {
     public class DiagonalMove : MoveExplorer
     {
-        private bool topRight = true;
-        private bool topLeft = true;
-        private bool bottomRight = true;
-        private bool bottomLeft = true;
-
         public DiagonalMove()
         {
             PossibleMoves = new List<Cell>();

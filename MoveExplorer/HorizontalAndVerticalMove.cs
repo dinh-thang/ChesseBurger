@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {

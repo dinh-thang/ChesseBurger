@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using ChessBurger.lib;
-using ChessBurger.MoveExplorer;
-using ChessBurger.Board;
 
-namespace ChessBurger.Pieces 
+namespace ChessBurger.GameComponents.Pieces
 {
     public abstract class Piece : GameObject
     {
@@ -22,7 +20,7 @@ namespace ChessBurger.Pieces
         {
             get
             {
-                return new int[] { X, Y};
+                return new int[] { X, Y };
             }
         }
 
@@ -41,10 +39,10 @@ namespace ChessBurger.Pieces
         // return scaled sprite
         public Sprite GetSprite
         {
-            get 
+            get
             {
-                SplashKit.SpriteSetScale(_sprite, 1/3f);
-                return _sprite; 
+                SplashKit.SpriteSetScale(_sprite, 1 / 3f);
+                return _sprite;
             }
         }
 

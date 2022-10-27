@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ChessBurger.Board;
 using ChessBurger.MoveExplorer;
 
-namespace ChessBurger.Pieces
+namespace ChessBurger.GameComponents.Pieces
 {
     public class King : Piece
     {
@@ -13,16 +12,16 @@ namespace ChessBurger.Pieces
         public King(int x, int y, bool isWhite, GameObjectID bmpPath) : base(x, y, isWhite, bmpPath)
         {
             _kingMoveExplorer = new KingMove();
-            _castleMoveExplorer = new CastleMove(); 
-            
+            _castleMoveExplorer = new CastleMove();
+
             PossibleMoves = GenerateMoves();
         }
 
         public override List<Cell> GenerateMoves()
         {
-            List<Cell> defaultMoves = _kingMoveExplorer.FindAllPossibleMoves(X, Y);    
+            List<Cell> defaultMoves = _kingMoveExplorer.FindAllPossibleMoves(X, Y);
             List<Cell> castleMoves = _castleMoveExplorer.FindAllPossibleMoves(X, Y);
-            PossibleMoves = Enumerable.Concat(defaultMoves, castleMoves).ToList();
+            PossibleMoves = defaultMoves.Concat(castleMoves).ToList();
 
             return PossibleMoves;
         }

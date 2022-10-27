@@ -1,15 +1,14 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ChessBurger.Game
 {
-    public class Turn
+    public class TurnManager
     {
-        private GameState _curTurn;
+        public GameState _curTurn;
         private Player _whitePlayer;
         private Player _blackPlayer;
 
-        public Turn()
+        public TurnManager()
         {
             _whitePlayer = new Player(true); 
             _blackPlayer = new Player(false);
@@ -34,18 +33,6 @@ namespace ChessBurger.Game
             else
             {
                 _curTurn = GameState.WHITE_TURN;
-            }
-        }
-
-        public Player NextPLayer
-        {
-            get
-            {
-                if (_curTurn == GameState.BLACK_TURN)
-                {
-                    return _whitePlayer;
-                }
-                return _blackPlayer;    
             }
         }
 

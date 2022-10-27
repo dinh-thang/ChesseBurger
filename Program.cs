@@ -6,7 +6,7 @@ namespace ChessBurger
     {
         static void Main(string[] args)
         {
-            Game.Game newGame = new Game.Game();
+            Game.Game newGame = Game.Game.GetInstance();
             newGame.MainLoop();
         }
     }

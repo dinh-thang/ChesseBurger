@@ -1,10 +1,9 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChessBurger.Board;
 using ChessBurger.MoveExplorer;
 
-namespace ChessBurger.Pieces
+namespace ChessBurger.GameComponents.Pieces
 {
     public class Queen : Piece
     {
@@ -22,7 +21,7 @@ namespace ChessBurger.Pieces
         {
             List<Cell> diagonalMoves = _queenDiagonalMoveExplorer.FindAllPossibleMoves(X, Y);
             List<Cell> horizontalMoves = _queenHorizontalMoveExplorer.FindAllPossibleMoves(X, Y);
-            PossibleMoves = Enumerable.Concat(diagonalMoves, horizontalMoves).ToList();
+            PossibleMoves = diagonalMoves.Concat(horizontalMoves).ToList();
             return PossibleMoves;
         }
     }

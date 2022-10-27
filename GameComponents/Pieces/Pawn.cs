@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using ChessBurger.Board;
 using ChessBurger.MoveExplorer;
 
-namespace ChessBurger.Pieces
+namespace ChessBurger.GameComponents.Pieces
 {
     public class Pawn : Piece
     {

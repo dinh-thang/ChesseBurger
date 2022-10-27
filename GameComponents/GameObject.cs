@@ -1,6 +1,6 @@
 ﻿using ChessBurger.lib;
 
-namespace ChessBurger.Board
+namespace ChessBurger.GameComponents
 {
     public enum GameObjectID
     {
@@ -17,8 +17,7 @@ namespace ChessBurger.Board
         BLACK_ROOK = 10,
         BLACK_QUEEN = 11,
         BOARD = 12,
-        SELECTED_SQUARE = 13,
-        NULL_PIECE = 14
+        NULL_PIECE = 13
     }
 
     public class GameObject
@@ -38,7 +37,7 @@ namespace ChessBurger.Board
             _fullImgPath = ASSETS_PATH + CreateImagePath(_objectID);
             _bmp = CreateBitmap();
         }
-        
+
         public int X
         {
             get { return _x; }
@@ -51,16 +50,10 @@ namespace ChessBurger.Board
             set { _y = value; }
         }
 
-        // return obj's ID
-        public GameObjectID ID
-        {
-            get { return _objectID; }
-        }
-
         public Bitmap GetBitmap
         {
             get { return _bmp; }
-        } 
+        }
 
         // return full path to image
         public string CreateImagePath(GameObjectID imgPath)
@@ -95,21 +88,19 @@ namespace ChessBurger.Board
                     return "\\pieces\\wr.png";
                 case GameObjectID.BOARD:
                     return "\\board\\rsz_150.bmp";
-                case GameObjectID.SELECTED_SQUARE:
-                    return "\\selectedSquare\\mac_rsz.png";
             }
         }
 
         // return bitmap created with the full path
         public Bitmap CreateBitmap()
         {
-            return SplashKit.LoadBitmap(((int) _objectID).ToString(), _fullImgPath);
+            return SplashKit.LoadBitmap(((int)_objectID).ToString(), _fullImgPath);
         }
 
         // check gameobject id
         public bool IsID(GameObjectID id)
         {
-            if (id == this.ID)
+            if (id == _objectID)
             {
                 return true;
             }

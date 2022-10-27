@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {
@@ -23,7 +24,7 @@ namespace ChessBurger.MoveExplorer
                 int possibleY = locY + relativeDistanceFromPiece[i, 1];
 
                 // add if the position is inbound
-                if (possibleX < 7 && possibleX >= 0 && possibleY < 7 && possibleY >= 0)
+                if (possibleX < 8 && possibleX >= 0 && possibleY < 8 && possibleY >= 0)
                 {
                     PossibleMoves.Add(new Cell(possibleX, possibleY));
                 } 

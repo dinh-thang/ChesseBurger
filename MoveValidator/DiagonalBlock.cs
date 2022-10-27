@@ -1,6 +1,5 @@
 ﻿using ChessBurger.GameComponents;
 using ChessBurger.GameComponents.Pieces;
-using ChessBurger.MoveExplorer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace ChessBurger.MoveValidator
     {
         override public void ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
-            if (currentPiece.ID == GameObjectID.WHITE_BISHOP || currentPiece.ID == GameObjectID.BLACK_BISHOP || currentPiece.ID == GameObjectID.WHITE_QUEEN || currentPiece.ID == GameObjectID.BLACK_QUEEN)
+            if (currentPiece.IsID(GameObjectID.WHITE_BISHOP) || currentPiece.IsID(GameObjectID.BLACK_BISHOP) || currentPiece.IsID(GameObjectID.WHITE_QUEEN) || currentPiece.IsID(GameObjectID.BLACK_QUEEN))
             {
                 // this list contain positions that contain a piece in the current piece's possible moves list
                 List<Cell> blockingMovesInPossibleMoves = new List<Cell>();

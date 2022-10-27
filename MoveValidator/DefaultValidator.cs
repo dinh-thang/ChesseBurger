@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using ChessBurger.MoveExplorer;
 using ChessBurger.GameComponents.Pieces;
+using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveValidator
 {
     public class DefaultValidator : IValidator
     {
         protected IValidator _nextValidator;
-        protected List<Cell> _illegalMove;
+        private List<Cell> _illegalMove;
 
 
         public void SetNextValidator(IValidator validator)

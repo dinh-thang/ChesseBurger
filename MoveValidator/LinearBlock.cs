@@ -1,6 +1,5 @@
 ﻿using ChessBurger.GameComponents;
 using ChessBurger.GameComponents.Pieces;
-using ChessBurger.MoveExplorer;
 using System;
 using System.Collections.Generic;
 
@@ -11,11 +10,8 @@ namespace ChessBurger.MoveValidator
     {
         public override void ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
-            if (currentPiece.IsID(GameObjectID.WHITE_ROOK) || currentPiece.IsID(GameObjectID.WHITE_QUEEN) || currentPiece.IsID(GameObjectID.BLACK_ROOK) || currentPiece.IsID(GameObjectID.BLACK_ROOK))
-            {
-
-                Console.WriteLine("cur:" + currentPiece.ID);
-               
+            if (currentPiece.IsID(GameObjectID.WHITE_ROOK) || currentPiece.IsID(GameObjectID.WHITE_QUEEN) || currentPiece.IsID(GameObjectID.BLACK_ROOK) || currentPiece.IsID(GameObjectID.BLACK_QUEEN))
+            {               
                 // this list contain positions that contain a piece in the current piece's possible moves list
                 List<Cell> blockingMovesInPossibleMoves = new List<Cell>();
 
@@ -24,7 +20,6 @@ namespace ChessBurger.MoveValidator
                     if (currentPiece.PossibleMoves.Exists(cell => cell.X == activePieces[i].X && cell.Y == activePieces[i].Y) && activePieces[i] != currentPiece)
                     {
                         Cell cellContainPieceInPossibleMove = currentPiece.PossibleMoves.Find(cell => (cell.X == activePieces[i].X && cell.Y == activePieces[i].Y));
-                        //Console.WriteLine("blocked: " + cellContainPieceInPossibleMove.X + ", " + cellContainPieceInPossibleMove.Y);
                         blockingMovesInPossibleMoves.Add(cellContainPieceInPossibleMove);
                     }
                 }
@@ -52,10 +47,6 @@ namespace ChessBurger.MoveValidator
                     {
                         RemoveRightMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
                     }
-                }
-                foreach (Cell cell in currentPiece.PossibleMoves)
-                {
-                    Console.WriteLine("possible: " + cell.X + ", " + cell.Y);
                 }
             }
             
