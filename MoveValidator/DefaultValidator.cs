@@ -1,7 +1,7 @@
-﻿using ChessBurger.Pieces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ChessBurger.MoveExplorer;
+using ChessBurger.GameComponents.Pieces;
 
 namespace ChessBurger.MoveValidator
 {

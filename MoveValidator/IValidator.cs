@@ -1,4 +1,4 @@
-﻿using ChessBurger.Pieces;
+﻿using ChessBurger.GameComponents.Pieces;
 using System.Collections.Generic;
 
 namespace ChessBurger.MoveValidator

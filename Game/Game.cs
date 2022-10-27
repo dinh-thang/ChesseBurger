@@ -5,6 +5,7 @@ using ChessBurger.Ultilities;
 using ChessBurger.MoveValidator;
 using System.Linq;
 using ChessBurger.MoveValidator.ValidatorCreator;
+using ChessBurger.GameComponents;
 
 namespace ChessBurger.Game
 {
@@ -29,7 +30,7 @@ namespace ChessBurger.Game
         private const int MAIN_WINDOW_WIDTH = 900;
         private const int MAIN_WINDOW_HEIGHT = 700;
         private Displayer _displayer;
-        private Board.Board _board;
+        private Board _board;
         private readonly Window _window;
         private Turn _moveTurn; 
         private List<int> _selectedPos;
@@ -49,7 +50,7 @@ namespace ChessBurger.Game
             _selectedPos = new List<int>(); 
             _displayer = new Displayer();
             _moveTurn = new Turn();
-            _board = new Board.Board();
+            _board = new Board();
             // validators
             _validatorFactory = new ValidatorFactory();
             _defaultValidator = _validatorFactory.CreateValidator(ValidatorID.DEFAULT);

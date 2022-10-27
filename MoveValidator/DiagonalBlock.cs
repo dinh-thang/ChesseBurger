@@ -1,6 +1,6 @@
-﻿using ChessBurger.Board;
+﻿using ChessBurger.GameComponents;
+using ChessBurger.GameComponents.Pieces;
 using ChessBurger.MoveExplorer;
-using ChessBurger.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

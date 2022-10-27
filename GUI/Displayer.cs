@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using ChessBurger.Board;
-using ChessBurger.Pieces;
 using ChessBurger.lib;
 using ChessBurger.Ultilities;
+using ChessBurger.GameComponents.Pieces;
+using ChessBurger.GameComponents;
 
 namespace ChessBurger.GUI
 {
@@ -34,7 +34,7 @@ namespace ChessBurger.GUI
         }
 
         // display board starting from x, y
-        public void DisplayBoard(Board.Board board)
+        public void DisplayBoard(Board board)
         {
             SplashKit.DrawBitmap(board.GetBitmap, board.X, board.Y);
         }
