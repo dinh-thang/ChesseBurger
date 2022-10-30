@@ -5,7 +5,7 @@ namespace ChessBurger.Game
     public class Player
     {
         private bool _isWhite;
-        private Command _command;
+        private ICommand _command;
 
         public Player(bool isWhite)
         {
@@ -22,7 +22,7 @@ namespace ChessBurger.Game
         }
 
         // set the command for the player
-        public void SetCommand(Command command)
+        public void SetCommand(ICommand command)
         {
             _command = command;
         }

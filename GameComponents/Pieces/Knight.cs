@@ -13,6 +13,16 @@ namespace ChessBurger.GameComponents.Pieces
             PossibleMoves = GenerateMoves();
         }
 
+        // create image path
+        public override string CreateImagePath()
+        {
+            if (IsID(GameObjectID.WHITE_KNIGHT))
+            {
+                return "\\pieces\\wn.png";
+            }
+            return "\\pieces\\bn.png";
+        }
+
         public override List<Cell> GenerateMoves()
         {
             return _knightMoveExplorer.FindAllPossibleMoves(X, Y);

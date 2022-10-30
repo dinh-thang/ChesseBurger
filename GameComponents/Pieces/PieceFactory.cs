@@ -2,7 +2,7 @@
 {
     public class PieceFactory 
     {
-        public Piece CreatePiece(int x, int y, bool isWhite, GameObjectID objectID)
+        public static Piece CreatePiece(int x, int y, bool isWhite, GameObjectID objectID)
         {
             switch (objectID)
             {

@@ -10,13 +10,24 @@ namespace ChessBurger.GameComponents.Pieces
         private DiagonalMove _queenDiagonalMoveExplorer;
         private HorizontalAndVerticalMove _queenHorizontalMoveExplorer;
 
-        public Queen(int x, int y, bool isWhite, GameObjectID bmpPath) : base(x, y, isWhite, bmpPath)
+        public Queen(int x, int y, bool isWhite, GameObjectID objectID) : base(x, y, isWhite, objectID)
         {
             PossibleMoves = new List<Cell>();
             _queenDiagonalMoveExplorer = new DiagonalMove();
             _queenHorizontalMoveExplorer = new HorizontalAndVerticalMove();
             PossibleMoves = GenerateMoves();
         }
+
+        // create image path
+        public override string CreateImagePath()
+        {
+            if (IsID(GameObjectID.WHITE_QUEEN))
+            {
+                return "\\pieces\\wq.png";
+            }
+            return "\\pieces\\bq.png";
+        }
+
         public override List<Cell> GenerateMoves()
         {
             List<Cell> diagonalMoves = _queenDiagonalMoveExplorer.FindAllPossibleMoves(X, Y);

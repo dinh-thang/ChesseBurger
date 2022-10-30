@@ -17,25 +17,29 @@ namespace ChessBurger.GameComponents
         BLACK_ROOK = 10,
         BLACK_QUEEN = 11,
         BOARD = 12,
-        NULL_PIECE = 13
+        UPPER_BUN = 13,
+        UNDER_BUN = 14,
+        BACKGROUND = 15,
     }
 
-    public class GameObject
+    public abstract class GameObject
     {
         private const string ASSETS_PATH = "F:\\Swinburne CS\\COS20007 OOP\\Portfolio\\ChessBurger\\assets";
-        private string _fullImgPath;
         private GameObjectID _objectID;
+        private string _fullImgPath;
+        private Sprite _sprite;
         private Bitmap _bmp;
         private int _x;
         private int _y;
 
         public GameObject(int x, int y, GameObjectID imgPath)
         {
-            _objectID = imgPath;
             _x = x;
             _y = y;
-            _fullImgPath = ASSETS_PATH + CreateImagePath(_objectID);
+            _objectID = imgPath;
+            _fullImgPath = ASSETS_PATH + CreateImagePath();
             _bmp = CreateBitmap();
+            _sprite = GenerateSprite();
         }
 
         public int X
@@ -50,51 +54,34 @@ namespace ChessBurger.GameComponents
             set { _y = value; }
         }
 
+        // return object's bitmap image
         public Bitmap GetBitmap
         {
             get { return _bmp; }
-        }
-
-        // return full path to image
-        public string CreateImagePath(GameObjectID imgPath)
-        {
-            switch (imgPath)
-            {
-                default:
-                    return "";
-                case GameObjectID.BLACK_KNIGHT:
-                    return "\\pieces\\bn.png";
-                case GameObjectID.BLACK_PAWN:
-                    return "\\pieces\\bp.png";
-                case GameObjectID.BLACK_BISHOP:
-                    return "\\pieces\\bb.png";
-                case GameObjectID.BLACK_KING:
-                    return "\\pieces\\bk.png";
-                case GameObjectID.BLACK_ROOK:
-                    return "\\pieces\\br.png";
-                case GameObjectID.BLACK_QUEEN:
-                    return "\\pieces\\bq.png";
-                case GameObjectID.WHITE_KNIGHT:
-                    return "\\pieces\\wn.png";
-                case GameObjectID.WHITE_BISHOP:
-                    return "\\pieces\\wb.png";
-                case GameObjectID.WHITE_QUEEN:
-                    return "\\pieces\\wq.png";
-                case GameObjectID.WHITE_KING:
-                    return "\\pieces\\wk.png";
-                case GameObjectID.WHITE_PAWN:
-                    return "\\pieces\\wp.png";
-                case GameObjectID.WHITE_ROOK:
-                    return "\\pieces\\wr.png";
-                case GameObjectID.BOARD:
-                    return "\\board\\rsz_150.bmp";
-            }
         }
 
         // return bitmap created with the full path
         public Bitmap CreateBitmap()
         {
             return SplashKit.LoadBitmap(((int)_objectID).ToString(), _fullImgPath);
+        }
+
+        // return full path to image
+        abstract public string CreateImagePath();
+
+        // create sprite
+        public virtual Sprite GenerateSprite()
+        {
+            return SplashKit.CreateSprite(GetBitmap);
+        }
+
+        // return sprite
+        public Sprite GetSprite
+        {
+            get
+            {
+                return _sprite;
+            }
         }
 
         // check gameobject id

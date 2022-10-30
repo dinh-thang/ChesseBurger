@@ -1,11 +1,12 @@
-﻿using ChessBurger.GameComponents.Pieces;
-using ChessBurger.MoveExplorer;
+﻿using ChessBurger.GameComponents;
+using ChessBurger.GameComponents.Pieces;
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 namespace ChessBurger.Game.GameCommand
 {
-    public class ChoosePieceCommand : Command
+    public class ChoosePieceCommand : ICommand
     {
         private int _curX;
         private int _curY;

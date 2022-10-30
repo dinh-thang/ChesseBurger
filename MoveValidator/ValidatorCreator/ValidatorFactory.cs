@@ -3,7 +3,7 @@ namespace ChessBurger.MoveValidator.ValidatorCreator
 {
     public class ValidatorFactory
     {
-        public IValidator CreateValidator(ValidatorID id)
+        public static IValidator CreateValidator(ValidatorID id)
         {
             switch (id)
             {
@@ -13,6 +13,8 @@ namespace ChessBurger.MoveValidator.ValidatorCreator
                     return new LinearBlock();
                 case ValidatorID.DIAGONAL:
                     return new DiagonalBlock();
+                case ValidatorID.CASTLE:
+                    return new CastleValidator();
                 default:
                     return new DiagonalBlock();
             }

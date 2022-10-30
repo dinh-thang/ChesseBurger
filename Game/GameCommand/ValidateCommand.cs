@@ -5,25 +5,28 @@ using ChessBurger.GameComponents.Pieces;
 
 namespace ChessBurger.Game.GameCommand
 {
-    public class ValidateCommand : Command
+    public class ValidateCommand : ICommand
     {
-        private ValidatorFactory _validatorFactory;
         private IValidator _defaultValidator;
         private IValidator _diagonalBlockValidator;
         private IValidator _linearBlockValidator;
+        private IValidator _castleMoveValidator;
+        // active pieces
         private List<Piece> _activePieces;
 
         public ValidateCommand(List<Piece> activePieces)
         {
             _activePieces = activePieces;
             // validators
-            _validatorFactory = new ValidatorFactory();
-            _defaultValidator = _validatorFactory.CreateValidator(ValidatorID.DEFAULT);
-            _diagonalBlockValidator = _validatorFactory.CreateValidator(ValidatorID.DIAGONAL);
-            _linearBlockValidator = _validatorFactory.CreateValidator(ValidatorID.LINEAR);
+            _defaultValidator = ValidatorFactory.CreateValidator(ValidatorID.DEFAULT);
+            _diagonalBlockValidator = ValidatorFactory.CreateValidator(ValidatorID.DIAGONAL);
+            _linearBlockValidator = ValidatorFactory.CreateValidator(ValidatorID.LINEAR);
+            _castleMoveValidator = ValidatorFactory.CreateValidator(ValidatorID.CASTLE);
+
             // set up validators chain
             _diagonalBlockValidator.SetNextValidator(_linearBlockValidator);
             _linearBlockValidator.SetNextValidator(_defaultValidator);
+            _defaultValidator.SetNextValidator(_castleMoveValidator);
         } 
         public CommandStatus Execute()
         {

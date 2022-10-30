@@ -6,7 +6,7 @@
         NOT_SUCCESSFUL
     }
 
-    public interface Command
+    public interface ICommand
     {
         public CommandStatus Execute();
     }

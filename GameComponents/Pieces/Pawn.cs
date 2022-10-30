@@ -9,7 +9,7 @@ namespace ChessBurger.GameComponents.Pieces
         private bool _isFirstMove;
         private bool _isWhite;
 
-        public Pawn(int x, int y, bool isWhite, GameObjectID bmpPath) : base(x, y, isWhite, bmpPath)
+        public Pawn(int x, int y, bool isWhite, GameObjectID objectID) : base(x, y, isWhite, objectID)
         {
             _isFirstMove = true;
             _isWhite = isWhite;
@@ -17,9 +17,24 @@ namespace ChessBurger.GameComponents.Pieces
             PossibleMoves = GenerateMoves();
         }
 
-        public bool IsFirstMove
+        // create image path
+        public override string CreateImagePath()
+        {
+            if (IsID(GameObjectID.WHITE_PAWN))
+            {
+                return "\\pieces\\wp.png";
+            }
+            else
+            {
+                return "\\pieces\\bp.png";
+            }
+        }
+
+        // return true if piece haven't move 
+        public bool FirstMove
         {
             set { _isFirstMove = value; }
+            get { return _isFirstMove; }
         }
 
         public override List<Cell> GenerateMoves()

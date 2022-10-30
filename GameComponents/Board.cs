@@ -8,5 +8,10 @@ namespace ChessBurger.GameComponents
         public Board() : base(100, 150, GameObjectID.BOARD)
         {
         }
+
+        public override string CreateImagePath()
+        {
+            return "\\board\\rsz_150.bmp";
+        }
     }
 }

@@ -6,22 +6,12 @@ namespace ChessBurger.GameComponents.Pieces
     public abstract class Piece : GameObject
     {
         private List<Cell> _possibleMoves;
-        private Sprite _sprite;
         private bool _isWhite;
 
-        public Piece(int x, int y, bool isWhite, GameObjectID imgPath) : base(x, y, imgPath)
+        public Piece(int x, int y, bool isWhite, GameObjectID objectID) : base(x, y, objectID)
         {
             _possibleMoves = new List<Cell>();
-            _sprite = GenerateSprite();
             _isWhite = isWhite;
-        }
-        // get cell
-        public int[] GetPosition
-        {
-            get
-            {
-                return new int[] { X, Y };
-            }
         }
 
         // reset move list
@@ -31,19 +21,11 @@ namespace ChessBurger.GameComponents.Pieces
         }
 
         // return piece's sprite using its bitmap
-        public Sprite GenerateSprite()
+        public override Sprite GenerateSprite()
         {
-            return SplashKit.CreateSprite(GetBitmap);
-        }
-
-        // return scaled sprite
-        public Sprite GetSprite
-        {
-            get
-            {
-                SplashKit.SpriteSetScale(_sprite, 1 / 3f);
-                return _sprite;
-            }
+            Sprite sprite = SplashKit.CreateSprite(GetBitmap);
+            SplashKit.SpriteSetScale(sprite, 1 / 3f);
+            return sprite;
         }
 
         // return list of pseudo legal moves

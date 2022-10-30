@@ -28,10 +28,8 @@ namespace ChessBurger.MoveExplorer
 
             // if king havent move yet => castle is valid.
             // Rook is checked in a validator 
-            if (isFirstMove)
-            {
-                FindAllPossibleMoves(locX, locY);
-            }
+            PossibleMoves = FindAllPossibleMoves(locX, locY);
+            
             return PossibleMoves;
         }
     }

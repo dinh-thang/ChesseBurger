@@ -28,19 +28,17 @@ namespace ChessBurger.Game
         // Game instance
         private static Game _gameInstance;
         // Game objects
-        private Board _board;
         private List<Piece> _activePieces;
-        // GUI
-        private Displayer _displayer;
         // Turn manager
         private TurnManager _moveTurn;        
         // commands set up
         private CommandStatus _commandStat = CommandStatus.NOT_SUCCESSFUL;
-        private Command _validateCommand;
-        private Command _setBlackPieces;
-        private Command _setWhitePieces;
-        private Command _choosePieceCommand;
-        private Command _movePieceCommand;
+        private ICommand _validateCommand;
+        private ICommand _setBlackPieces;
+        private ICommand _setWhitePieces;
+        private ICommand _choosePieceCommand;
+        private ICommand _movePieceCommand;
+        private ICommand _display;
         // current possition and desination
         private Cell _selectedPos;
         private Cell _selectedDes;
@@ -49,12 +47,8 @@ namespace ChessBurger.Game
         {
             // init main window
             _window = new Window(MAIN_WINDOW_TITLE, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-            // init displayer
-            _displayer = new Displayer();
             // init turn manager
             _moveTurn = new TurnManager();
-            // init gameobjects
-            _board = new Board();
             _activePieces = new List<Piece>();
             // init setPieces command and execute
             _setBlackPieces = new SetPiecesCommand(_moveTurn.GetPlayers[0].IsWhite, _activePieces);
@@ -78,15 +72,19 @@ namespace ChessBurger.Game
             do
             {
                 // displays board and pieces
-                _displayer.DisplayBoard(_board);
-                _displayer.DisplayPiece(_activePieces);
-
+                _display = new DisplayCommand(_activePieces);
+                _display.Execute();
 
                 SplashKit.ProcessEvents();
 
                 // save the current piece position
                 if (SplashKit.MouseClicked(MouseButton.LeftButton) && _commandStat == CommandStatus.NOT_SUCCESSFUL)
                 {
+                    // validate the moves
+                    _validateCommand = new ValidateCommand(_activePieces);
+                    _moveTurn.CurrentPlayer.SetCommand(_validateCommand);
+                    _moveTurn.CurrentPlayer.ExecuteCommand();
+
                     // convert the coordinate on the window to board's coordinate
                     _selectedPos = new Cell(Extras.WindowXPosToBoardXPos((int)SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int)SplashKit.MouseY()));
 
