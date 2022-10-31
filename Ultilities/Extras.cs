@@ -5,13 +5,13 @@ namespace ChessBurger.Ultilities
 {
     public class Extras
     {
-        // return the correspond x value of the board instead of the window
+        // return the correspond x value of the board from the window's x
         public static double GetBoardPosX(double x)
         {
             // for some reason, the cordinate of sprites is 50 unit larger than normal cordinate? so both x and y are decreased 50 unit
             return x * 50 + 50;
         }
-        // return the correspond y value of the board instead of the window
+        // return the correspond y value of the board from the window's y
         public static double GetBoardPosY(double y)
         {
             return y * 50 + 100;

@@ -113,7 +113,6 @@ namespace ChessBurger.Game
                     // make sure a concrete piece is moved to change the turn.
                     if (_commandStat == CommandStatus.SUCCESSFUL)
                     {
-                        Console.WriteLine(_moveTurn._curTurn);
                         _moveTurn.SetNextTurn();
                     }
                     // reset the click state to default

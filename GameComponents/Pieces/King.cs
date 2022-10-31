@@ -7,7 +7,7 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public class King : Piece
     {
-        private CastleMove _castleMoveExplorer;
+        private MoveGenerator _castleMoveExplorer;
         private KingMove _kingMoveExplorer;
         private bool _isFirstMove;
 
@@ -32,9 +32,9 @@ namespace ChessBurger.GameComponents.Pieces
         {
             if (IsID(GameObjectID.WHITE_KING))
             {
-                return "\\pieces\\wk.png";
+                return ASSETS_PATH + "\\pieces\\wk.png";
             }
-            return "\\pieces\\bk.png";
+            return ASSETS_PATH + "\\pieces\\bk.png";
         }
 
         public override List<Cell> GenerateMoves()

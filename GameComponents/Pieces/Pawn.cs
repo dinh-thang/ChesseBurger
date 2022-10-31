@@ -5,7 +5,7 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public class Pawn : Piece
     {
-        private PawnMove _pawnMoveExplorer;
+        private MoveGenerator _pawnMoveExplorer;
         private bool _isFirstMove;
         private bool _isWhite;
 
@@ -17,16 +17,22 @@ namespace ChessBurger.GameComponents.Pieces
             PossibleMoves = GenerateMoves();
         }
 
+        // return true since it use linear validator
+        public override bool UseLinearValidator
+        {
+            get { return true; }
+        }
+
         // create image path
         public override string CreateImagePath()
         {
             if (IsID(GameObjectID.WHITE_PAWN))
             {
-                return "\\pieces\\wp.png";
+                return ASSETS_PATH + "\\pieces\\wp.png";
             }
             else
             {
-                return "\\pieces\\bp.png";
+                return ASSETS_PATH + "\\pieces\\bp.png";
             }
         }
 
@@ -39,7 +45,8 @@ namespace ChessBurger.GameComponents.Pieces
 
         public override List<Cell> GenerateMoves()
         {
-            return _pawnMoveExplorer.FindAllPossibleMoves(X, Y, _isFirstMove);
+            (_pawnMoveExplorer as PawnMove).SetFirstMove = _isFirstMove;
+            return _pawnMoveExplorer.FindAllPossibleMoves(X, Y);
         }
     }
 }

@@ -3,7 +3,7 @@ using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {
-    public class DiagonalMove : MoveExplorer
+    public class DiagonalMove : MoveGenerator
     {
         public DiagonalMove()
         {

@@ -4,7 +4,7 @@ using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {
-    public abstract class MoveExplorer
+    public abstract class MoveGenerator
     {
         // List of all possible moves (not yet validated) of a piece
         private List<Cell> _possibleMoves;
@@ -17,7 +17,7 @@ namespace ChessBurger.MoveExplorer
             _possibleMoves.Clear();
         }
 
-        public List<Cell> PossibleMoves
+        protected List<Cell> PossibleMoves
         {
             set { _possibleMoves = value; }
             get { return _possibleMoves; }

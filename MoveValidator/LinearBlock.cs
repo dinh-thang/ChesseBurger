@@ -10,7 +10,7 @@ namespace ChessBurger.MoveValidator
     {
         public override void ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
-            if (currentPiece.IsID(GameObjectID.WHITE_ROOK) || currentPiece.IsID(GameObjectID.WHITE_QUEEN) || currentPiece.IsID(GameObjectID.BLACK_ROOK) || currentPiece.IsID(GameObjectID.BLACK_QUEEN))
+            if (currentPiece.UseLinearValidator)
             {               
                 // this list contain positions that contain a piece in the current piece's possible moves list
                 List<Cell> blockingMovesInPossibleMoves = new List<Cell>();
@@ -49,8 +49,6 @@ namespace ChessBurger.MoveValidator
                     }
                 }
             }
-            
-
             if (_nextValidator != null)
             {
                 _nextValidator.ValidCheck(currentPiece, activePieces);

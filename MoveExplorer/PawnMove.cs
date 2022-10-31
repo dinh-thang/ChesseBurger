@@ -3,7 +3,7 @@ using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {
-    public class PawnMove : MoveExplorer
+    public class PawnMove : MoveGenerator
     {
         private bool _isFirstMove;
         private bool _isWhite;
@@ -15,11 +15,12 @@ namespace ChessBurger.MoveExplorer
             _isWhite = isWhite;
         }
 
-        // allow isFirstMove parameter. This help the isFirstMove update easier
-        public List<Cell> FindAllPossibleMoves(int locX, int locY, bool isFirstMove)
+        public bool SetFirstMove
         {
-            this._isFirstMove = isFirstMove;
-            return FindAllPossibleMoves(locX, locY);
+            set
+            {
+                _isFirstMove = value;
+            }
         }
 
         // generate a pawn's moves including 1 and 2 square, capture

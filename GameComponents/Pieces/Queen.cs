@@ -7,8 +7,8 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public class Queen : Piece
     {
-        private DiagonalMove _queenDiagonalMoveExplorer;
-        private HorizontalAndVerticalMove _queenHorizontalMoveExplorer;
+        private MoveGenerator _queenDiagonalMoveExplorer;
+        private MoveGenerator _queenHorizontalMoveExplorer;
 
         public Queen(int x, int y, bool isWhite, GameObjectID objectID) : base(x, y, isWhite, objectID)
         {
@@ -18,14 +18,21 @@ namespace ChessBurger.GameComponents.Pieces
             PossibleMoves = GenerateMoves();
         }
 
+        // return true since it use linear validator
+        public override bool UseLinearValidator
+        {
+            get { return true; }
+        }
+
+
         // create image path
         public override string CreateImagePath()
         {
             if (IsID(GameObjectID.WHITE_QUEEN))
             {
-                return "\\pieces\\wq.png";
+                return ASSETS_PATH + "\\pieces\\wq.png";
             }
-            return "\\pieces\\bq.png";
+            return ASSETS_PATH + "\\pieces\\bq.png";
         }
 
         public override List<Cell> GenerateMoves()

@@ -43,7 +43,6 @@ namespace ChessBurger.Game.GameCommand
             {
                 return CommandStatus.SUCCESSFUL;
             }
-
             return CommandStatus.NOT_SUCCESSFUL;
         }
     }

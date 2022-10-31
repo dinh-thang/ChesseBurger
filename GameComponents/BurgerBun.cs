@@ -11,11 +11,11 @@
         {
             if (IsID(GameObjectID.UPPER_BUN))
             {
-                return "\\bun\\UpperBun.bmp";
+                return ASSETS_PATH + "\\bun\\UpperBun.png";
             }
             else
             {
-                return "\\bun\\UnderBun.png";
+                return ASSETS_PATH + "\\bun\\UnderBun.png";
             }
         }
     }

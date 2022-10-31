@@ -19,12 +19,11 @@ namespace ChessBurger.GameComponents
         BOARD = 12,
         UPPER_BUN = 13,
         UNDER_BUN = 14,
-        BACKGROUND = 15,
     }
 
     public abstract class GameObject
     {
-        private const string ASSETS_PATH = "F:\\Swinburne CS\\COS20007 OOP\\Portfolio\\ChessBurger\\assets";
+        protected const string ASSETS_PATH = "F:\\Swinburne CS\\COS20007 OOP\\Portfolio\\ChessBurger\\assets";
         private GameObjectID _objectID;
         private string _fullImgPath;
         private Sprite _sprite;
@@ -32,12 +31,12 @@ namespace ChessBurger.GameComponents
         private int _x;
         private int _y;
 
-        public GameObject(int x, int y, GameObjectID imgPath)
+        public GameObject(int x, int y, GameObjectID objectID)
         {
             _x = x;
             _y = y;
-            _objectID = imgPath;
-            _fullImgPath = ASSETS_PATH + CreateImagePath();
+            _objectID = objectID;
+            _fullImgPath = CreateImagePath();
             _bmp = CreateBitmap();
             _sprite = GenerateSprite();
         }
@@ -61,7 +60,7 @@ namespace ChessBurger.GameComponents
         }
 
         // return bitmap created with the full path
-        public Bitmap CreateBitmap()
+        private Bitmap CreateBitmap()
         {
             return SplashKit.LoadBitmap(((int)_objectID).ToString(), _fullImgPath);
         }

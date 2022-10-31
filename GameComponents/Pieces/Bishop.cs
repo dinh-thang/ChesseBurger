@@ -5,7 +5,7 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public class Bishop : Piece
     {
-        private DiagonalMove _bishopMoveExplorer;
+        private MoveGenerator _bishopMoveExplorer;
 
         public Bishop(int x, int y, bool isWhite, GameObjectID objectId) : base(x, y, isWhite, objectId)
         {
@@ -18,9 +18,9 @@ namespace ChessBurger.GameComponents.Pieces
         {
             if (IsID(GameObjectID.WHITE_BISHOP))
             {
-                return "\\pieces\\wb.png";
+                return ASSETS_PATH + "\\pieces\\wb.png";
             }
-            return "\\pieces\\bb.png";
+            return ASSETS_PATH + "\\pieces\\bb.png";
         }
 
         public override List<Cell> GenerateMoves()

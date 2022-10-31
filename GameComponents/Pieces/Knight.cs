@@ -5,7 +5,7 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public class Knight : Piece
     {
-        private KnightMove _knightMoveExplorer;
+        private MoveGenerator _knightMoveExplorer;
 
         public Knight(int x, int y, bool isWhite, GameObjectID bmpPath) : base(x, y, isWhite, bmpPath)
         {
@@ -18,9 +18,9 @@ namespace ChessBurger.GameComponents.Pieces
         {
             if (IsID(GameObjectID.WHITE_KNIGHT))
             {
-                return "\\pieces\\wn.png";
+                return ASSETS_PATH + "\\pieces\\wn.png";
             }
-            return "\\pieces\\bn.png";
+            return ASSETS_PATH + "\\pieces\\bn.png";
         }
 
         public override List<Cell> GenerateMoves()

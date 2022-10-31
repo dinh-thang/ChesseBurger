@@ -12,8 +12,6 @@
                     return new BurgerBun(100, 0, objectID);
                 case GameObjectID.UNDER_BUN:
                     return new BurgerBun(100, 560, objectID);
-                case GameObjectID.BACKGROUND:
-                    return new Background();
             }
         }
     }

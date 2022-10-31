@@ -1,17 +1,15 @@
-﻿using System;
-using System.Text;
-
-namespace ChessBurger.GameComponents
+﻿namespace ChessBurger.GameComponents
 {
     public class Board : GameObject
     {
+        private string _boardImageFile = "rsz_150.png";
         public Board() : base(100, 150, GameObjectID.BOARD)
         {
         }
 
         public override string CreateImagePath()
         {
-            return "\\board\\rsz_150.bmp";
+            return ASSETS_PATH + $"\\board\\{_boardImageFile}";
         }
     }
 }

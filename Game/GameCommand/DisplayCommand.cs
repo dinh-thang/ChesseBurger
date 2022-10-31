@@ -10,7 +10,6 @@ namespace ChessBurger.Game.GameCommand
         private GameObjectDisplayer _boardDisplayer;
         private GameObjectDisplayer _upperBunDisplayer;
         private GameObjectDisplayer _underBunDisplayer;
-        private GameObjectDisplayer _backgroundDisplayer;
 
         public DisplayCommand(List<Piece> activePieces)
         {
@@ -18,7 +17,6 @@ namespace ChessBurger.Game.GameCommand
             _boardDisplayer = new GameObjectDisplayer(GameComponents.GameObjectID.BOARD);
             _upperBunDisplayer = new GameObjectDisplayer(GameComponents.GameObjectID.UPPER_BUN);
             _underBunDisplayer = new GameObjectDisplayer(GameComponents.GameObjectID.UNDER_BUN);
-            _backgroundDisplayer = new GameObjectDisplayer(GameComponents.GameObjectID.BACKGROUND);
         }
 
         public CommandStatus Execute()

@@ -3,7 +3,7 @@ using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
 {
-    public class CastleMove : MoveExplorer
+    public class CastleMove : MoveGenerator
     {
         public CastleMove()
         {
@@ -18,17 +18,6 @@ namespace ChessBurger.MoveExplorer
 
             PossibleMoves.Add(right);
             PossibleMoves.Add(left);
-            
-            return PossibleMoves;
-        }
-
-        public List<Cell> FindAllPossibleMoves(int locX, int locY, bool isFirstMove)
-        {
-            ClearPossibleMove();
-
-            // if king havent move yet => castle is valid.
-            // Rook is checked in a validator 
-            PossibleMoves = FindAllPossibleMoves(locX, locY);
             
             return PossibleMoves;
         }
