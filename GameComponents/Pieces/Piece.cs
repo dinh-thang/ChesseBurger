@@ -5,6 +5,7 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public abstract class Piece : GameObject
     {
+        private bool _isPin;
         private List<Cell> _possibleMoves;
         private bool _isWhite;
         private PossibleMoveManager _moveManager;
@@ -16,18 +17,30 @@ namespace ChessBurger.GameComponents.Pieces
             _isWhite = isWhite;
         }
 
-        // return true if piece use linear validator
-        // pieces that apply: rook, queen, pawn
+        // get possible move manager
+        public PossibleMoveManager MoveManager
+        {
+            get { return _moveManager; }
+        }
+
+        // return true if piece use the validator
         public virtual bool UseLinearValidator
         {
             get { return false; }
         }
-        
-        // return list of pseudo legal moves
-        public List<Cell> PossibleMoves
+        public virtual bool UseDiagonalValidator
         {
-            get { return _possibleMoves; }
-            set { _possibleMoves = value; }
+            get { return false; }
+        }
+        public virtual bool UseCastleValidator
+        {
+            get { return false; }
+        }
+
+        public bool Pin
+        {
+            get { return _isPin; }
+            set { _isPin = value; }
         }
 
         // readonly get piece's color
@@ -36,17 +49,8 @@ namespace ChessBurger.GameComponents.Pieces
             get { return _isWhite; }
         }
 
-        // remove a move from possible moves
-        public void RemovePossibleMove(Cell moveToBeRemoved)
-        {
-            _possibleMoves.Remove(moveToBeRemoved);
-        }
-
-        // reset move list
-        public void ResetPossibleMove()
-        {
-            _possibleMoves.Clear();
-        }
+        // clear and re-generate possible moves
+        public abstract void ResetPossibleMove();
 
         // return piece's sprite using its bitmap
         public override Sprite GenerateSprite()
@@ -55,8 +59,5 @@ namespace ChessBurger.GameComponents.Pieces
             SplashKit.SpriteSetScale(sprite, 1 / 3f);
             return sprite;
         }
-
-        // return a list of type cell, representing the pseudo legal moves
-        public abstract List<Cell> GenerateMoves();
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ChessBurger.MoveExplorer;
+﻿using ChessBurger.MoveExplorer;
 
 namespace ChessBurger.GameComponents.Pieces
 {
@@ -14,13 +13,20 @@ namespace ChessBurger.GameComponents.Pieces
             _isFirstMove = true;
             _isWhite = isWhite;
             _pawnMoveExplorer = new PawnMove(_isFirstMove, _isWhite);
-            PossibleMoves = GenerateMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _pawnMoveExplorer);
         }
 
         // return true since it use linear validator
         public override bool UseLinearValidator
         {
             get { return true; }
+        }
+
+        // return true if piece haven't move 
+        public bool FirstMove
+        {
+            set { _isFirstMove = value; }
+            get { return _isFirstMove; }
         }
 
         // create image path
@@ -36,17 +42,12 @@ namespace ChessBurger.GameComponents.Pieces
             }
         }
 
-        // return true if piece haven't move 
-        public bool FirstMove
-        {
-            set { _isFirstMove = value; }
-            get { return _isFirstMove; }
-        }
 
-        public override List<Cell> GenerateMoves()
+        public override void ResetPossibleMove()
         {
-            (_pawnMoveExplorer as PawnMove).SetFirstMove = _isFirstMove;
-            return _pawnMoveExplorer.FindAllPossibleMoves(X, Y);
+            MoveManager.ClearPossibleMoves();
+            (_pawnMoveExplorer as PawnMove).SetFirstMove = FirstMove;
+            MoveManager.GeneratePossibleMoves(X, Y, _pawnMoveExplorer);
         }
     }
 }

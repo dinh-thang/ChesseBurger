@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ChessBurger.MoveExplorer;
+﻿using ChessBurger.MoveExplorer;
 
 namespace ChessBurger.GameComponents.Pieces
 {
@@ -9,6 +6,7 @@ namespace ChessBurger.GameComponents.Pieces
     {
         private MoveGenerator _castleMoveExplorer;
         private KingMove _kingMoveExplorer;
+        private bool _isChecked;
         private bool _isFirstMove;
 
         public King(int x, int y, bool isWhite, GameObjectID objectID) : base(x, y, isWhite, objectID)
@@ -16,8 +14,7 @@ namespace ChessBurger.GameComponents.Pieces
             _isFirstMove = true;
             _castleMoveExplorer = new CastleMove();
             _kingMoveExplorer = new KingMove();
-
-            PossibleMoves = GenerateMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _kingMoveExplorer, _castleMoveExplorer);
         }
 
         // return true if piece haven't move 
@@ -25,6 +22,26 @@ namespace ChessBurger.GameComponents.Pieces
         {
             get { return _isFirstMove; }
             set { _isFirstMove = value; }
+        }
+
+        public bool IsChecked
+        {
+            get { return _isChecked; }
+            set { _isChecked = value; }
+        }
+
+        public override bool UseCastleValidator
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public override void ResetPossibleMove()
+        {
+            MoveManager.ClearPossibleMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _kingMoveExplorer, _castleMoveExplorer);
         }
 
         // create image path
@@ -35,14 +52,6 @@ namespace ChessBurger.GameComponents.Pieces
                 return ASSETS_PATH + "\\pieces\\wk.png";
             }
             return ASSETS_PATH + "\\pieces\\bk.png";
-        }
-
-        public override List<Cell> GenerateMoves()
-        {
-            List<Cell> defaultMoves = _kingMoveExplorer.FindAllPossibleMoves(X, Y);
-            List<Cell> castleMoves = _castleMoveExplorer.FindAllPossibleMoves(X, Y);
-            PossibleMoves = defaultMoves.Concat(castleMoves).ToList();
-            return PossibleMoves;
         }
     }
 }

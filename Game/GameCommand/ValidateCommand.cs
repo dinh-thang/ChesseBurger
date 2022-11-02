@@ -25,8 +25,8 @@ namespace ChessBurger.Game.GameCommand
 
             // set up validators chain
             _diagonalBlockValidator.SetNextValidator(_linearBlockValidator);
-            _linearBlockValidator.SetNextValidator(_defaultValidator);
-            _defaultValidator.SetNextValidator(_castleMoveValidator);
+            _linearBlockValidator.SetNextValidator(_castleMoveValidator);
+            _castleMoveValidator.SetNextValidator(_defaultValidator);
         } 
         public CommandStatus Execute()
         {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ChessBurger.MoveExplorer;
+﻿using ChessBurger.MoveExplorer;
 
 namespace ChessBurger.GameComponents.Pieces
 {
@@ -10,7 +9,14 @@ namespace ChessBurger.GameComponents.Pieces
         public Knight(int x, int y, bool isWhite, GameObjectID bmpPath) : base(x, y, isWhite, bmpPath)
         {
             _knightMoveExplorer = new KnightMove();
-            PossibleMoves = GenerateMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _knightMoveExplorer);
+        }
+
+        // reset possible move 
+        public override void ResetPossibleMove()
+        {
+            MoveManager.ClearPossibleMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _knightMoveExplorer);
         }
 
         // create image path
@@ -21,11 +27,6 @@ namespace ChessBurger.GameComponents.Pieces
                 return ASSETS_PATH + "\\pieces\\wn.png";
             }
             return ASSETS_PATH + "\\pieces\\bn.png";
-        }
-
-        public override List<Cell> GenerateMoves()
-        {
-            return _knightMoveExplorer.FindAllPossibleMoves(X, Y);
         }
     }
 }

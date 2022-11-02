@@ -28,11 +28,11 @@ namespace ChessBurger.MoveValidator
                 }
             }
             // if a move in possible moves is in the illegal list => remove it
-            for (int i = currentPiece.PossibleMoves.Count - 1; i >= 0; i--)
+            for (int i = 0; i < _illegalMove.Count - 1; i++)
             {
-                if (_illegalMove.Contains(currentPiece.PossibleMoves[i])) 
+                if (currentPiece.MoveManager.MoveExist(_illegalMove[i]))
                 {
-                    currentPiece.PossibleMoves.Remove(currentPiece.PossibleMoves[i]);
+                    currentPiece.MoveManager.RemovePossibleMove(_illegalMove[i]);
                 }
             }
 

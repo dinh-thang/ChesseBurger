@@ -23,7 +23,7 @@ namespace ChessBurger.Game.GameCommand
         {
             _boardDisplayer.Display();
             _underBunDisplayer.Display();
-            _upperBunDisplayer.Display();
+            //_upperBunDisplayer.Display();
             _pieceDisplayer.Display();
             return CommandStatus.SUCCESSFUL;
         }

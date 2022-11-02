@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ChessBurger.MoveExplorer;
+﻿using ChessBurger.MoveExplorer;
 
 namespace ChessBurger.GameComponents.Pieces
 {
@@ -12,7 +11,7 @@ namespace ChessBurger.GameComponents.Pieces
         {
             _isFirstMove = true;
             _rookMoveExplorer = new HorizontalAndVerticalMove();
-            PossibleMoves = GenerateMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _rookMoveExplorer);
         }
 
         // return true since it use linear validator
@@ -27,6 +26,12 @@ namespace ChessBurger.GameComponents.Pieces
             set { _isFirstMove = value; }
         }
 
+        public override void ResetPossibleMove()
+        {
+            MoveManager.ClearPossibleMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _rookMoveExplorer);
+        }
+
         // return image path
         public override string CreateImagePath()
         {
@@ -35,11 +40,6 @@ namespace ChessBurger.GameComponents.Pieces
                 return ASSETS_PATH + "\\pieces\\wr.png";
             }
             return ASSETS_PATH + "\\pieces\\br.png";
-        }
-        
-        public override List<Cell> GenerateMoves()
-        {
-            return _rookMoveExplorer.FindAllPossibleMoves(X, Y);
         }
     }
 }

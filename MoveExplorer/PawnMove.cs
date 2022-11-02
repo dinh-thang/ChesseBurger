@@ -10,11 +10,11 @@ namespace ChessBurger.MoveExplorer
 
         public PawnMove(bool isFirstMove, bool isWhite)
         {
-            PossibleMoves = new List<Cell>();
             _isFirstMove = isFirstMove;
             _isWhite = isWhite;
         }
 
+        // set firstMove value of the pawn
         public bool SetFirstMove
         {
             set

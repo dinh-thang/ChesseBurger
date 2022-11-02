@@ -5,11 +5,6 @@ namespace ChessBurger.MoveExplorer
 {
     public class CastleMove : MoveGenerator
     {
-        public CastleMove()
-        {
-            PossibleMoves = new List<Cell>();
-        }
-
         public override List<Cell> FindAllPossibleMoves(int locX, int locY)
         {
             // create castle move for king

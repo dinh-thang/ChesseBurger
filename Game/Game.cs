@@ -2,7 +2,6 @@
 using ChessBurger.Game.GameCommand;
 using ChessBurger.GameComponents;
 using ChessBurger.Ultilities;
-using ChessBurger.GUI;
 using ChessBurger.lib;
 using System.Collections.Generic;
 using System;

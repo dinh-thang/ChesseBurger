@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using ChessBurger.GameComponents;
 
 namespace ChessBurger.MoveExplorer
@@ -8,6 +7,12 @@ namespace ChessBurger.MoveExplorer
     {
         // List of all possible moves (not yet validated) of a piece
         private List<Cell> _possibleMoves;
+
+        public MoveGenerator()
+        {
+            _possibleMoves = new List<Cell>();
+        }
+
         // return all possible moves (not yet validated) of a piece
         public abstract List<Cell> FindAllPossibleMoves(int x, int y);
 

@@ -10,13 +10,13 @@ namespace ChessBurger.MoveValidator.ValidatorCreator
                 case ValidatorID.DEFAULT:
                     return new DefaultValidator();
                 case ValidatorID.LINEAR:
-                    return new LinearBlock();
+                    return new LinearBlockValidator();
                 case ValidatorID.DIAGONAL:
-                    return new DiagonalBlock();
+                    return new DiagonalBlockValidator();
                 case ValidatorID.CASTLE:
                     return new CastleValidator();
                 default:
-                    return new DiagonalBlock();
+                    return new DiagonalBlockValidator();
             }
         }
     }

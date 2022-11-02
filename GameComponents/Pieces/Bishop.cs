@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ChessBurger.MoveExplorer;
+﻿using ChessBurger.MoveExplorer;
 
 namespace ChessBurger.GameComponents.Pieces
 {
@@ -10,7 +9,17 @@ namespace ChessBurger.GameComponents.Pieces
         public Bishop(int x, int y, bool isWhite, GameObjectID objectId) : base(x, y, isWhite, objectId)
         {
             _bishopMoveExplorer = new DiagonalMove();
-            PossibleMoves = GenerateMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _bishopMoveExplorer);
+        }
+
+        public override bool UseDiagonalValidator
+        {
+            get { return true; }
+        }
+        public override void ResetPossibleMove()
+        {
+            MoveManager.ClearPossibleMoves();
+            MoveManager.GeneratePossibleMoves(X, Y, _bishopMoveExplorer);
         }
 
         // create image path
@@ -21,11 +30,6 @@ namespace ChessBurger.GameComponents.Pieces
                 return ASSETS_PATH + "\\pieces\\wb.png";
             }
             return ASSETS_PATH + "\\pieces\\bb.png";
-        }
-
-        public override List<Cell> GenerateMoves()
-        {
-            return _bishopMoveExplorer.FindAllPossibleMoves(X, Y);
         }
     }
 }

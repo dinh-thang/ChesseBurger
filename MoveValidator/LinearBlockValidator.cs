@@ -1,12 +1,10 @@
 ﻿using ChessBurger.GameComponents;
 using ChessBurger.GameComponents.Pieces;
-using System;
 using System.Collections.Generic;
-
 
 namespace ChessBurger.MoveValidator
 {
-    public class LinearBlock : DefaultValidator
+    public class LinearBlockValidator : DefaultValidator
     {
         public override void ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
@@ -17,9 +15,10 @@ namespace ChessBurger.MoveValidator
 
                 for (int i = 0; i < activePieces.Count; i++)
                 {
-                    if (currentPiece.PossibleMoves.Exists(cell => cell.X == activePieces[i].X && cell.Y == activePieces[i].Y) && activePieces[i] != currentPiece)
+                    Cell cellContainPieceInPossibleMove = new Cell(activePieces[i].X, activePieces[i].Y);
+                    
+                    if (currentPiece.MoveManager.MoveExist(cellContainPieceInPossibleMove) && activePieces[i] != currentPiece)
                     {
-                        Cell cellContainPieceInPossibleMove = currentPiece.PossibleMoves.Find(cell => (cell.X == activePieces[i].X && cell.Y == activePieces[i].Y));
                         blockingMovesInPossibleMoves.Add(cellContainPieceInPossibleMove);
                     }
                 }
@@ -56,44 +55,44 @@ namespace ChessBurger.MoveValidator
         }
         private void RemoveRightMoves(int blockPieceX, int blockPieceY, Piece currentPiece)
         {
-            for (int i = currentPiece.PossibleMoves.Count - 1; i >= 0; i--)
+            for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.PossibleMoves[i].X > blockPieceX && currentPiece.PossibleMoves[i].Y == blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X > blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y == blockPieceY)
                 {
-                    currentPiece.PossibleMoves.Remove(currentPiece.PossibleMoves[i]);
+                    currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
                 }
             }
         }
 
         private void RemoveLeftMoves(int blockPieceX, int blockPieceY, Piece currentPiece)
         {
-            for (int i = currentPiece.PossibleMoves.Count - 1; i >= 0; i--)
+            for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.PossibleMoves[i].X < blockPieceX && currentPiece.PossibleMoves[i].Y == blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X < blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y == blockPieceY)
                 {
-                    currentPiece.PossibleMoves.Remove(currentPiece.PossibleMoves[i]);
+                    currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
                 }
             }
         }
 
         private void RemoveTopMoves(int blockPieceX, int blockPieceY, Piece currentPiece)
         {
-            for (int i = currentPiece.PossibleMoves.Count - 1; i >= 0; i--)
+            for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.PossibleMoves[i].X == blockPieceX && currentPiece.PossibleMoves[i].Y < blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y < blockPieceY)
                 {
-                    currentPiece.PossibleMoves.Remove(currentPiece.PossibleMoves[i]);
+                    currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
                 }
             }
         }
 
         private void RemoveBottomMoves(int blockPieceX, int blockPieceY, Piece currentPiece)
         {
-            for (int i = currentPiece.PossibleMoves.Count - 1; i >= 0; i--)
+            for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.PossibleMoves[i].X == blockPieceX && currentPiece.PossibleMoves[i].Y > blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y > blockPieceY)
                 {
-                    currentPiece.PossibleMoves.Remove(currentPiece.PossibleMoves[i]);
+                    currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
                 }
             }
         }

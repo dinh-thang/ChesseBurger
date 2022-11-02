@@ -5,11 +5,6 @@ namespace ChessBurger.MoveExplorer
 {
     public class KingMove : MoveGenerator
     {
-        public KingMove()
-        {
-            PossibleMoves = new List<Cell>();
-        }
-
         public override List<Cell> FindAllPossibleMoves(int x, int y)
         {
             ClearPossibleMove();

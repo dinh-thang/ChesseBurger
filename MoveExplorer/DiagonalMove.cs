@@ -5,11 +5,6 @@ namespace ChessBurger.MoveExplorer
 {
     public class DiagonalMove : MoveGenerator
     {
-        public DiagonalMove()
-        {
-            PossibleMoves = new List<Cell>();
-        }
-
         public override List<Cell> FindAllPossibleMoves(int locX, int locY)
         {
             ClearPossibleMove();

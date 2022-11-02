@@ -48,45 +48,41 @@ namespace ChessBurger.Game.GameCommand
         public CommandStatus Execute()
         {
             Piece currentPiece = GetSelectedPiece(_curX, _curY);
-            
             Piece capturePiece = GetSelectedPiece(_desX, _desY);
 
-            foreach (Cell position in currentPiece.PossibleMoves)
+            if (currentPiece.MoveManager.MoveExist(new Cell(_desX, _desY)))
             {
-                if (position.X == _desX && position.Y == _desY)
+                Cell initValue = new Cell(currentPiece.X, currentPiece.Y);
+
+                currentPiece.X = _desX;
+                currentPiece.Y = _desY;
+
+                if (currentPiece.IsID(GameObjectID.WHITE_PAWN) || currentPiece.IsID(GameObjectID.BLACK_PAWN))
                 {
-                    Cell initValue = new Cell(currentPiece.X, currentPiece.Y);
-
-                    currentPiece.X = _desX;
-                    currentPiece.Y = _desY;
-
-                    if (currentPiece.IsID(GameObjectID.WHITE_PAWN) || currentPiece.IsID(GameObjectID.BLACK_PAWN))
-                    {
-                        Pawn pawn = (currentPiece as Pawn);
-                        pawn.FirstMove = false;
-                    }
-                    else if (currentPiece.IsID(GameObjectID.BLACK_KING) || currentPiece.IsID(GameObjectID.WHITE_KING))
-                    {
-                        King king = (currentPiece as King);
-
-                        Castle(king, initValue);
-
-                        king.FirstMove = false;
-                    }
-                    else if (currentPiece.IsID(GameObjectID.BLACK_ROOK) || currentPiece.IsID(GameObjectID.WHITE_ROOK))
-                    {
-                        Rook rook = (currentPiece as Rook);
-                        rook.FirstMove = false;
-                    }
-
-                    if (capturePiece != null && capturePiece.IsWhite != currentPiece.IsWhite)
-                    {
-                        Capture(capturePiece);
-                    }
-                    UpdatePieces();
-
-                    return CommandStatus.SUCCESSFUL;
+                    Pawn pawn = (currentPiece as Pawn);
+                    pawn.FirstMove = false;
                 }
+                else if (currentPiece.IsID(GameObjectID.BLACK_KING) || currentPiece.IsID(GameObjectID.WHITE_KING))
+                {
+                    King king = (currentPiece as King);
+
+                    Castle(king, initValue);
+
+                    king.FirstMove = false;
+                }
+                else if (currentPiece.IsID(GameObjectID.BLACK_ROOK) || currentPiece.IsID(GameObjectID.WHITE_ROOK))
+                {
+                    Rook rook = (currentPiece as Rook);
+                    rook.FirstMove = false;
+                }
+
+                if (capturePiece != null && capturePiece.IsWhite != currentPiece.IsWhite)
+                {
+                    Capture(capturePiece);
+                }
+                UpdatePieces();
+
+                return CommandStatus.SUCCESSFUL;
             }
             return CommandStatus.NOT_SUCCESSFUL;
         }
@@ -106,8 +102,6 @@ namespace ChessBurger.Game.GameCommand
                         { 
                             if (_activePieces[i].IsWhite == king.IsWhite && _activePieces[i].Y == king.Y)
                             {
-                                Console.WriteLine("king: "+ king.X + ", " + king.Y);
-                                Console.WriteLine($"rook: {_activePieces[i].X}, {_activePieces[i].Y}");
                                 if (initValue.X + 1 < king.X)
                                 {
                                     if (_activePieces[i].X > king.X)
@@ -136,8 +130,7 @@ namespace ChessBurger.Game.GameCommand
         {
             foreach (Piece piece in _activePieces)
             {
-                piece.ResetPossibleMove();
-                piece.GenerateMoves();
+                piece.ResetPossibleMove(); 
             }
         }
     }
