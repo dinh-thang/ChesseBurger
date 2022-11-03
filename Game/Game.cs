@@ -33,8 +33,7 @@ namespace ChessBurger.Game
         // commands set up
         private CommandStatus _commandStat = CommandStatus.NOT_SUCCESSFUL;
         private ICommand _validateCommand;
-        private ICommand _setBlackPieces;
-        private ICommand _setWhitePieces;
+        private ICommand _setPieces;
         private ICommand _choosePieceCommand;
         private ICommand _movePieceCommand;
         private ICommand _display;
@@ -49,11 +48,6 @@ namespace ChessBurger.Game
             // init turn manager
             _moveTurn = new TurnManager();
             _activePieces = new List<Piece>();
-            // init setPieces command and execute
-            _setBlackPieces = new SetPiecesCommand(_moveTurn.GetPlayers[0].IsWhite, _activePieces);
-            _setWhitePieces = new SetPiecesCommand(_moveTurn.GetPlayers[1].IsWhite, _activePieces);
-            _setBlackPieces.Execute();
-            _setWhitePieces.Execute();
         }
 
         // get the game instance
@@ -68,56 +62,55 @@ namespace ChessBurger.Game
 
         public void MainLoop()
         {
+            // init setPieces command and execute
+            for (int i = 0; i < _moveTurn.GetPlayers.Count; i++)
+            {
+                _setPieces = new SetPiecesCommand(_moveTurn.GetPlayers[i].IsWhite, _activePieces);
+                _setPieces.Execute();
+            }
+
+            _display = new DisplayCommand(_activePieces);
+            _display.Execute();
+            
             do
             {
-                // displays board and pieces
-                _display = new DisplayCommand(_activePieces);
-                _display.Execute();
 
                 SplashKit.ProcessEvents();
 
                 // save the current piece position
                 if (SplashKit.MouseClicked(MouseButton.LeftButton) && _commandStat == CommandStatus.NOT_SUCCESSFUL)
                 {
-                    // validate the moves
                     _validateCommand = new ValidateCommand(_activePieces);
                     _moveTurn.CurrentPlayer.SetCommand(_validateCommand);
                     _moveTurn.CurrentPlayer.ExecuteCommand();
 
-                    // convert the coordinate on the window to board's coordinate
                     _selectedPos = new Cell(Extras.WindowXPosToBoardXPos((int)SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int)SplashKit.MouseY()));
 
                     _choosePieceCommand = new ChoosePieceCommand(_selectedPos.X, _selectedPos.Y, _moveTurn.CurrentPlayer.IsWhite, _activePieces);
 
-                    // set the current command to choose piece
                     _moveTurn.CurrentPlayer.SetCommand(_choosePieceCommand);
 
-                    // return SUCCESSFUL if the selected pos hold a valid piece, else NOT_SUCCESSFUL.
                     _commandStat = _moveTurn.CurrentPlayer.ExecuteCommand();
                 }
-                // save the destination postion
                 else if (SplashKit.MouseClicked(MouseButton.LeftButton) && _commandStat == CommandStatus.SUCCESSFUL)
                 {
-                    // convert the coordinate on the window to board's coordinate
                     _selectedDes = new Cell(Extras.WindowXPosToBoardXPos((int)SplashKit.MouseX()), Extras.WindowYPosToBoardYPos((int)SplashKit.MouseY()));
 
                     _movePieceCommand = new MakeMoveCommand(_selectedPos.X, _selectedPos.Y, _selectedDes.X, _selectedDes.Y, _activePieces);
 
-                    // set current command to move
                     _moveTurn.CurrentPlayer.SetCommand(_movePieceCommand);
 
-                    // make the move
                     _commandStat = _moveTurn.CurrentPlayer.ExecuteCommand();
 
-                    // make sure a concrete piece is moved to change the turn.
                     if (_commandStat == CommandStatus.SUCCESSFUL)
                     {
                         _moveTurn.SetNextTurn();
                     }
-                    // reset the click state to default
                     _commandStat = CommandStatus.NOT_SUCCESSFUL;
 
-                    // validate the moves
+                    _display = new DisplayCommand(_activePieces);
+                    _display.Execute();
+
                     _validateCommand = new ValidateCommand(_activePieces);
                     _moveTurn.CurrentPlayer.SetCommand(_validateCommand);
                     _moveTurn.CurrentPlayer.ExecuteCommand();

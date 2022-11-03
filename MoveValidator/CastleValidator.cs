@@ -40,13 +40,10 @@ namespace ChessBurger.MoveValidator
                                 RemoveCastleMove(king, false, true);
                             }
                         }
-                        else
-                        {
-                            // if the rook havent move => check the range from king to rook for blocking piece
-                            RemoveCastleMoveBlockedByAPiece(king, activePieces);
-                            RemoveCastleMoveBlockedByAOpponentMove(king, activePieces);
-                        }
                     }
+                    // if the rook havent move => check the range from king to rook for blocking piece
+                    RemoveCastleMoveBlockedByAPiece(king, activePieces);
+                    RemoveCastleMoveBlockedByAOpponentMove(king, activePieces);
                 }
                 else
                 {
@@ -91,20 +88,22 @@ namespace ChessBurger.MoveValidator
             {
                 if (move.Y == king.Y)
                 {
-                    Console.WriteLine(king.IsWhite);
-                    Console.WriteLine(move.X + ", " + move.Y);
-
-                    if (move.X < king.X)
-                    {
-                        RemoveCastleMove(king, true, false);
-                    }
-                    else if (move.X > king.X)
-                    {
-                        RemoveCastleMove(king, false, true);
-                    }
-                    else if ((king as King).IsChecked)
+                    if ((king as King).IsChecked)
                     {
                         RemoveCastleMove(king, true, true);
+                    }
+                    else
+                    {
+                        if (move.X < king.X)
+                        {
+                            Console.WriteLine(1);
+                            RemoveCastleMove(king, true, false);
+                        }
+                        if (move.X > king.X)
+                        {
+                            Console.WriteLine(2);
+                            RemoveCastleMove(king, false, true);
+                        }
                     }
                 }
             }
@@ -128,23 +127,16 @@ namespace ChessBurger.MoveValidator
         // remove the castle move base on the input
         private void RemoveCastleMove(Piece king, bool removeQueenSide, bool removeKingSide)
         {
-            for (int i = 0; i < king.MoveManager.PossibleMoveCount - 1; i++)
+            for (int i = 0; i < king.MoveManager.PossibleMoveCount; i++)
             {
-                if (removeKingSide && removeQueenSide)
-                {
-                    if (king.MoveManager.PossibleMovesClone[i].X > king.X + 1 || king.MoveManager.PossibleMovesClone[i].X < king.X - 1)
-                    {
-                        king.MoveManager.RemovePossibleMove(king.MoveManager.PossibleMovesClone[i]);
-                    }
-                }
-                else if (removeKingSide)
+                if (removeKingSide)
                 {
                     if (king.MoveManager.PossibleMovesClone[i].X > king.X + 1)
                     {
                         king.MoveManager.RemovePossibleMove(king.MoveManager.PossibleMovesClone[i]);
                     }
                 }
-                else if (removeQueenSide)
+                if (removeQueenSide)
                 {
                     if (king.MoveManager.PossibleMovesClone[i].X < king.X - 1)
                     {

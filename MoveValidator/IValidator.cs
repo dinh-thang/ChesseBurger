@@ -8,7 +8,9 @@ namespace ChessBurger.MoveValidator
         DEFAULT,
         LINEAR,
         DIAGONAL,
-        CASTLE
+        CASTLE, 
+        PAWN_CAPTURE,
+        CHECK
     }
 
     public interface IValidator

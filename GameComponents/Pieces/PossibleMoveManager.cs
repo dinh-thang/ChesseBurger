@@ -63,7 +63,7 @@ namespace ChessBurger.GameComponents.Pieces
         {
             List<Cell> moveList1 = moveExplorer1.FindAllPossibleMoves(currentPieceX, currentPieceY);
             List<Cell> moveList2 = moveExplorer2.FindAllPossibleMoves(currentPieceX, currentPieceY);
-            _possibleMoves = moveList1.Concat(moveList2).ToList();
+            _possibleMoves = moveList1.Union(moveList2).ToList();
         }
     }
 }

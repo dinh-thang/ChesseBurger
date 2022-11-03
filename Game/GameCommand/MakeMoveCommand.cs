@@ -61,6 +61,12 @@ namespace ChessBurger.Game.GameCommand
                 {
                     Pawn pawn = (currentPiece as Pawn);
                     pawn.FirstMove = false;
+                    
+                    // if the pawn move 1 move foward, it cant be en passant by other
+                    if (initValue.Y == currentPiece.Y + 1 || initValue.Y == currentPiece.Y - 1)
+                    {
+                        pawn.EnPassant = false;
+                    }
                 }
                 else if (currentPiece.IsID(GameObjectID.BLACK_KING) || currentPiece.IsID(GameObjectID.WHITE_KING))
                 {

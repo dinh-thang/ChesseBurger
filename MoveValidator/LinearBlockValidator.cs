@@ -79,9 +79,17 @@ namespace ChessBurger.MoveValidator
         {
             for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y < blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y <= blockPieceY)
                 {
                     currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
+                } 
+                else if (currentPiece.IsID(GameObjectID.WHITE_PAWN) || currentPiece.IsID(GameObjectID.BLACK_PAWN))
+                {
+                    // prevent pawn capture piece directly
+                    if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y <= blockPieceY)
+                    {
+                        currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
+                    }
                 }
             }
         }
@@ -90,9 +98,17 @@ namespace ChessBurger.MoveValidator
         {
             for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y > blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y >= blockPieceY)
                 {
                     currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
+                }
+                else if (currentPiece.IsID(GameObjectID.WHITE_PAWN) || currentPiece.IsID(GameObjectID.BLACK_PAWN))
+                {
+                    // prevent pawn capture piece directly
+                    if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y >= blockPieceY)
+                    {
+                        currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
+                    }
                 }
             }
         }

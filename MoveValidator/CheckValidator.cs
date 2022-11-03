@@ -1,11 +1,9 @@
-﻿
-
-using ChessBurger.GameComponents.Pieces;
+﻿using ChessBurger.GameComponents.Pieces;
 using System.Collections.Generic;
 
 namespace ChessBurger.MoveValidator
 {
-    public class PinValidator : DefaultValidator
+    public class CheckValidator : DefaultValidator
     {
         private Piece _king;
         // remove all possible move of a piece if they are pinned

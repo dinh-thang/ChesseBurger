@@ -7,13 +7,21 @@ namespace ChessBurger.GameComponents.Pieces
         private MoveGenerator _pawnMoveExplorer;
         private bool _isFirstMove;
         private bool _isWhite;
+        private bool _enPassant;
 
         public Pawn(int x, int y, bool isWhite, GameObjectID objectID) : base(x, y, isWhite, objectID)
         {
+            _enPassant = true;
             _isFirstMove = true;
             _isWhite = isWhite;
             _pawnMoveExplorer = new PawnMove(_isFirstMove, _isWhite);
             MoveManager.GeneratePossibleMoves(X, Y, _pawnMoveExplorer);
+        }
+
+        public bool EnPassant
+        {
+            get { return _enPassant; }
+            set { _enPassant = value; }
         }
 
         // return true since it use linear validator

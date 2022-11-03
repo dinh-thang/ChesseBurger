@@ -5,7 +5,7 @@ namespace ChessBurger.GameComponents.Pieces
     public class King : Piece
     {
         private MoveGenerator _castleMoveExplorer;
-        private KingMove _kingMoveExplorer;
+        private MoveGenerator _kingMoveExplorer;
         private bool _isChecked;
         private bool _isFirstMove;
 

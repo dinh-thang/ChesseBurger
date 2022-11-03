@@ -11,6 +11,8 @@ namespace ChessBurger.Game.GameCommand
         private IValidator _diagonalBlockValidator;
         private IValidator _linearBlockValidator;
         private IValidator _castleMoveValidator;
+        private IValidator _pawnCaptureValidator;
+        private IValidator _checkValidator;
         // active pieces
         private List<Piece> _activePieces;
 
@@ -22,17 +24,23 @@ namespace ChessBurger.Game.GameCommand
             _diagonalBlockValidator = ValidatorFactory.CreateValidator(ValidatorID.DIAGONAL);
             _linearBlockValidator = ValidatorFactory.CreateValidator(ValidatorID.LINEAR);
             _castleMoveValidator = ValidatorFactory.CreateValidator(ValidatorID.CASTLE);
-
+            _pawnCaptureValidator = ValidatorFactory.CreateValidator(ValidatorID.PAWN_CAPTURE);
+            _checkValidator = ValidatorFactory.CreateValidator(ValidatorID.CHECK);
             // set up validators chain
             _diagonalBlockValidator.SetNextValidator(_linearBlockValidator);
-            _linearBlockValidator.SetNextValidator(_castleMoveValidator);
-            _castleMoveValidator.SetNextValidator(_defaultValidator);
+            _linearBlockValidator.SetNextValidator(_defaultValidator);
+            _defaultValidator.SetNextValidator(_pawnCaptureValidator);
+            _castleMoveValidator.SetNextValidator(_checkValidator);
         } 
         public CommandStatus Execute()
         {
             for (int i = 0; i < _activePieces.Count; i++)
             {
                 _diagonalBlockValidator.ValidCheck(_activePieces[i], _activePieces);
+            }
+            for (int i = 0; i < _activePieces.Count; i++)
+            {
+                _castleMoveValidator.ValidCheck(_activePieces[i], _activePieces);
             }
             return CommandStatus.SUCCESSFUL;
         }

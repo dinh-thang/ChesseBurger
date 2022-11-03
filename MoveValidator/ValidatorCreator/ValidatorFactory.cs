@@ -1,5 +1,4 @@
-﻿
-namespace ChessBurger.MoveValidator.ValidatorCreator
+﻿namespace ChessBurger.MoveValidator.ValidatorCreator
 {
     public class ValidatorFactory
     {
@@ -15,6 +14,10 @@ namespace ChessBurger.MoveValidator.ValidatorCreator
                     return new DiagonalBlockValidator();
                 case ValidatorID.CASTLE:
                     return new CastleValidator();
+                case ValidatorID.PAWN_CAPTURE:
+                    return new PawnCaptureValidator();
+                case ValidatorID.CHECK:
+                    return new KingCheckedValidator();
                 default:
                     return new DiagonalBlockValidator();
             }

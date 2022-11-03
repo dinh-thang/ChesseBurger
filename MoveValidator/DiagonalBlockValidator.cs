@@ -9,51 +9,44 @@ namespace ChessBurger.MoveValidator
     {
         override public void ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
-            // this list contain positions that contain a piece in the current piece's possible moves list
-            List<Cell> blockingMovesInPossibleMoves = new List<Cell>();
-
-            for (int i = 0; i < activePieces.Count; i++)
+            if (currentPiece.UseDiagonalValidator)
             {
-                if (!activePieces[i].UseDiagonalValidator)
-                {
-                    continue;
-                }
-                else
-                {
-                    // add cell that have piece
-                    for (int i = 0; i < activePieces.Count; i++)
-                    {
-                        Cell cellContainPieceInPossibleMove = new Cell(activePieces[i].X, activePieces[i].Y);
-                    
-                        if (currentPiece.MoveManager.MoveExist(cellContainPieceInPossibleMove) && activePieces[i] != currentPiece)
-                        {
-                            blockingMovesInPossibleMoves.Add(cellContainPieceInPossibleMove);
-                        }
-                    }
+                // this list contain positions that contain a piece in the current piece's possible moves list
+                List<Cell> blockingMovesInPossibleMoves = new List<Cell>();
 
-                    //using the position of a blocking piece => remove moves behind that piece relative to the input piece
-                    for (int i = 0; i < blockingMovesInPossibleMoves.Count; i++)
+                // add cell that have piece
+                for (int i = 0; i < activePieces.Count; i++)
+                {
+                    Cell cellContainPieceInPossibleMove = new Cell(activePieces[i].X, activePieces[i].Y);
+                    
+                    if (currentPiece.MoveManager.MoveExist(cellContainPieceInPossibleMove) && activePieces[i] != currentPiece)
                     {
-                        // check if the blocking piece is in the top right direction
-                        if (blockingMovesInPossibleMoves[i].X > currentPiece.X && blockingMovesInPossibleMoves[i].Y < currentPiece.Y)
-                        {
-                            RemoveTopRightMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
-                        }
-                        // check if the blocking piece is in the top left direction
-                        else if (blockingMovesInPossibleMoves[i].X < currentPiece.X && blockingMovesInPossibleMoves[i].Y < currentPiece.Y)
-                        {
-                            RemoveTopLeftMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
-                        }
-                        // check if the blocking piece is in the bottom left direction
-                        else if (blockingMovesInPossibleMoves[i].X < currentPiece.X && blockingMovesInPossibleMoves[i].Y > currentPiece.Y)
-                        {
-                            RemoveBottomLeftMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
-                        }
-                        // check if the blocking piece is in the bottom right direction
-                        else if (blockingMovesInPossibleMoves[i].X > currentPiece.X && blockingMovesInPossibleMoves[i].Y > currentPiece.Y)
-                        {
-                            RemoveBottomRightMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
-                        }
+                        blockingMovesInPossibleMoves.Add(cellContainPieceInPossibleMove);
+                    }
+                }
+
+                //using the position of a blocking piece => remove moves behind that piece relative to the input piece
+                for (int i = 0; i < blockingMovesInPossibleMoves.Count; i++)
+                {
+                    // check if the blocking piece is in the top right direction
+                    if (blockingMovesInPossibleMoves[i].X > currentPiece.X && blockingMovesInPossibleMoves[i].Y < currentPiece.Y)
+                    {
+                        RemoveTopRightMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
+                    }
+                    // check if the blocking piece is in the top left direction
+                    else if (blockingMovesInPossibleMoves[i].X < currentPiece.X && blockingMovesInPossibleMoves[i].Y < currentPiece.Y)
+                    {
+                        RemoveTopLeftMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
+                    }
+                    // check if the blocking piece is in the bottom left direction
+                    else if (blockingMovesInPossibleMoves[i].X < currentPiece.X && blockingMovesInPossibleMoves[i].Y > currentPiece.Y)
+                    {
+                        RemoveBottomLeftMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
+                    }
+                    // check if the blocking piece is in the bottom right direction
+                    else if (blockingMovesInPossibleMoves[i].X > currentPiece.X && blockingMovesInPossibleMoves[i].Y > currentPiece.Y)
+                    {
+                        RemoveBottomRightMoves(blockingMovesInPossibleMoves[i].X, blockingMovesInPossibleMoves[i].Y, currentPiece);
                     }
                 }
             }

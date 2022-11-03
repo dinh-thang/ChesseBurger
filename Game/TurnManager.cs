@@ -4,7 +4,7 @@ namespace ChessBurger.Game
 {
     public class TurnManager
     {
-        public GameState _curTurn;
+        private GameState _curTurn;
         private Player _whitePlayer;
         private Player _blackPlayer;
 

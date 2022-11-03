@@ -20,6 +20,8 @@ namespace ChessBurger.Game.GameCommand
         {
             if (_isWhite)
             {
+                // add king
+                _activePieces.Add(PieceFactory.CreatePiece(4, 0, _isWhite, GameObjectID.WHITE_KING));
                 // add rooks
                 _activePieces.Add(PieceFactory.CreatePiece(7, 0, _isWhite, GameObjectID.WHITE_ROOK));
                 _activePieces.Add(PieceFactory.CreatePiece(0, 0, _isWhite, GameObjectID.WHITE_ROOK));
@@ -31,8 +33,6 @@ namespace ChessBurger.Game.GameCommand
                 _activePieces.Add(PieceFactory.CreatePiece(2, 0, _isWhite, GameObjectID.WHITE_BISHOP));
                 // add queen
                 _activePieces.Add(PieceFactory.CreatePiece(3, 0, _isWhite, GameObjectID.WHITE_QUEEN));
-                // add king
-                _activePieces.Add(PieceFactory.CreatePiece(4, 0, _isWhite, GameObjectID.WHITE_KING));
                 // add white pawns
                 for (int i = 0; i < 8; i++)
                 {
@@ -46,9 +46,6 @@ namespace ChessBurger.Game.GameCommand
                     // add black pawns
                     _activePieces.Add(PieceFactory.CreatePiece(i, 6, _isWhite, GameObjectID.BLACK_PAWN));
                 }
-                // add rooks
-                _activePieces.Add(PieceFactory.CreatePiece(0, 7, _isWhite, GameObjectID.BLACK_ROOK));
-                _activePieces.Add(PieceFactory.CreatePiece(7, 7, _isWhite, GameObjectID.BLACK_ROOK));
                 // add knights
                 _activePieces.Add(PieceFactory.CreatePiece(6, 7, _isWhite, GameObjectID.BLACK_KNIGHT));
                 _activePieces.Add(PieceFactory.CreatePiece(1, 7, _isWhite, GameObjectID.BLACK_KNIGHT));
@@ -59,6 +56,9 @@ namespace ChessBurger.Game.GameCommand
                 _activePieces.Add(PieceFactory.CreatePiece(3, 7, _isWhite, GameObjectID.BLACK_QUEEN));
                 //// add king
                 _activePieces.Add(PieceFactory.CreatePiece(4, 7, _isWhite, GameObjectID.BLACK_KING));
+                // add rooks
+                _activePieces.Add(PieceFactory.CreatePiece(0, 7, _isWhite, GameObjectID.BLACK_ROOK));
+                _activePieces.Add(PieceFactory.CreatePiece(7, 7, _isWhite, GameObjectID.BLACK_ROOK));
             }
             return CommandStatus.SUCCESSFUL;
         }
