@@ -1,12 +1,14 @@
-﻿using ChessBurger.GameComponents;
+﻿using ChessBurger.Game.GameCommand;
+using ChessBurger.GameComponents;
 using ChessBurger.GameComponents.Pieces;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 namespace ChessBurger.MoveValidator
 {
     public class LinearBlockValidator : DefaultValidator
     {
-        public override void ValidCheck(Piece currentPiece, List<Piece> activePieces)
+        public override CommandStatus ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
             if (currentPiece.UseLinearValidator)
             {               
@@ -52,6 +54,7 @@ namespace ChessBurger.MoveValidator
             {
                 _nextValidator.ValidCheck(currentPiece, activePieces);
             }
+            return CommandStatus.SUCCESSFUL;
         }
         private void RemoveRightMoves(int blockPieceX, int blockPieceY, Piece currentPiece)
         {
@@ -79,7 +82,7 @@ namespace ChessBurger.MoveValidator
         {
             for (int i = currentPiece.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
-                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y <= blockPieceY)
+                if (currentPiece.MoveManager.PossibleMovesClone[i].X == blockPieceX && currentPiece.MoveManager.PossibleMovesClone[i].Y < blockPieceY)
                 {
                     currentPiece.MoveManager.RemovePossibleMove(currentPiece.MoveManager.PossibleMovesClone[i]);
                 } 

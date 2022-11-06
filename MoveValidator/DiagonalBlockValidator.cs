@@ -1,4 +1,5 @@
-﻿using ChessBurger.GameComponents;
+﻿using ChessBurger.Game.GameCommand;
+using ChessBurger.GameComponents;
 using ChessBurger.GameComponents.Pieces;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace ChessBurger.MoveValidator
 {
     public class DiagonalBlockValidator : DefaultValidator
     {
-        override public void ValidCheck(Piece currentPiece, List<Piece> activePieces)
+        override public CommandStatus ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
             if (currentPiece.UseDiagonalValidator)
             {
@@ -56,7 +57,7 @@ namespace ChessBurger.MoveValidator
             {
                 _nextValidator.ValidCheck(currentPiece, activePieces);
             }
-
+            return CommandStatus.SUCCESSFUL;
         }
 
         /* ILLEGAL MOVES REMOVERS */

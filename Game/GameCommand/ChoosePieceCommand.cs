@@ -41,6 +41,7 @@ namespace ChessBurger.Game.GameCommand
             // if the selected piece is not the null piece => return piece_selected, else remain the same (destination_selected is the default)
             if (currentPiece != null && currentPiece.IsWhite == _isWhiteTurn)
             {
+                currentPiece.Selected = true;
                 return CommandStatus.SUCCESSFUL;
             }
             return CommandStatus.NOT_SUCCESSFUL;

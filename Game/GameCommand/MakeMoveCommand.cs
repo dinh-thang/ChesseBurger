@@ -56,6 +56,7 @@ namespace ChessBurger.Game.GameCommand
 
                 currentPiece.X = _desX;
                 currentPiece.Y = _desY;
+                currentPiece.Selected = false;
 
                 if (currentPiece.IsID(GameObjectID.WHITE_PAWN) || currentPiece.IsID(GameObjectID.BLACK_PAWN))
                 {
@@ -90,6 +91,7 @@ namespace ChessBurger.Game.GameCommand
 
                 return CommandStatus.SUCCESSFUL;
             }
+            currentPiece.Selected = false; 
             return CommandStatus.NOT_SUCCESSFUL;
         }
 

@@ -12,7 +12,6 @@ namespace ChessBurger.Game
             _isWhite = isWhite;
         }
 
-        // get player's color
         public bool IsWhite
         {
             get
@@ -21,14 +20,11 @@ namespace ChessBurger.Game
             }
         }
 
-        // set the command for the player
         public void SetCommand(ICommand command)
         {
             _command = command;
         }
 
-
-        // execute the command requested from game
         public CommandStatus ExecuteCommand()
         {
             return _command.Execute();

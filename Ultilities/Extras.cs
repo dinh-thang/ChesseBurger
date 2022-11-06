@@ -29,5 +29,17 @@ namespace ChessBurger.Ultilities
         {
             return (WindowYPos - 150) / 50;
         }
+
+        public static int SelectedSquareXPosition(int windowXPos)
+        {
+            double x = GetBoardPosX(windowXPos);
+            return (int) x + 60;
+        }
+
+        public static int SelectedSquareYPosition(int windowYPos)
+        {
+            double y = GetBoardPosY(windowYPos);
+            return (int) y + 60;
+        }
     }
 }

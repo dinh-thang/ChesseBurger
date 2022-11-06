@@ -1,6 +1,6 @@
 ﻿namespace ChessBurger.GameComponents
 {
-    public struct Cell
+    public struct Cell 
     {
         private int _x;
         private int _y;

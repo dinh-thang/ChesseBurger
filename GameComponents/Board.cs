@@ -3,6 +3,7 @@
     public class Board : GameObject
     {
         private string _boardImageFile = "rsz_150.png";
+
         public Board() : base(100, 150, GameObjectID.BOARD)
         {
         }

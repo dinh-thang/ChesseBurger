@@ -3,7 +3,9 @@
     public enum CommandStatus
     {
         SUCCESSFUL,
-        NOT_SUCCESSFUL
+        NOT_SUCCESSFUL,
+        WHITE_CHECKMATED,
+        BLACK_CHECKMATED
     }
 
     public interface ICommand

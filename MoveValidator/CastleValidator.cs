@@ -3,12 +3,14 @@ using ChessBurger.GameComponents.Pieces;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using ChessBurger.Game.GameCommand;
 
 namespace ChessBurger.MoveValidator
 {
     public class CastleValidator : DefaultValidator
     {
-        public override void ValidCheck(Piece currentPiece, List<Piece> activePieces)
+        public override CommandStatus ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
             // first move is checked
             if (currentPiece.UseCastleValidator)
@@ -56,6 +58,7 @@ namespace ChessBurger.MoveValidator
             {
                 _nextValidator.ValidCheck(currentPiece, activePieces);
             }
+            return CommandStatus.SUCCESSFUL;
         }
 
         // check for piece blocking in the castle range
@@ -96,12 +99,10 @@ namespace ChessBurger.MoveValidator
                     {
                         if (move.X < king.X)
                         {
-                            Console.WriteLine(1);
                             RemoveCastleMove(king, true, false);
                         }
                         if (move.X > king.X)
                         {
-                            Console.WriteLine(2);
                             RemoveCastleMove(king, false, true);
                         }
                     }
@@ -127,7 +128,7 @@ namespace ChessBurger.MoveValidator
         // remove the castle move base on the input
         private void RemoveCastleMove(Piece king, bool removeQueenSide, bool removeKingSide)
         {
-            for (int i = 0; i < king.MoveManager.PossibleMoveCount; i++)
+            for (int i = king.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
             {
                 if (removeKingSide)
                 {
@@ -136,6 +137,9 @@ namespace ChessBurger.MoveValidator
                         king.MoveManager.RemovePossibleMove(king.MoveManager.PossibleMovesClone[i]);
                     }
                 }
+            }
+            for (int i = king.MoveManager.PossibleMoveCount - 1; i >= 0; i--)
+            {
                 if (removeQueenSide)
                 {
                     if (king.MoveManager.PossibleMovesClone[i].X < king.X - 1)

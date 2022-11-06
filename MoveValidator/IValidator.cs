@@ -1,5 +1,7 @@
-﻿using ChessBurger.GameComponents.Pieces;
+﻿using ChessBurger.Game.GameCommand;
+using ChessBurger.GameComponents.Pieces;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 namespace ChessBurger.MoveValidator
 {
@@ -16,6 +18,6 @@ namespace ChessBurger.MoveValidator
     public interface IValidator
     {
         public void SetNextValidator(IValidator validator);
-        public void ValidCheck(Piece piece, List<Piece> activePieces);
+        public CommandStatus ValidCheck(Piece piece, List<Piece> activePieces);
     }
 }

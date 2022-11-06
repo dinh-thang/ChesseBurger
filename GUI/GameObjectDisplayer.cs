@@ -10,12 +10,16 @@ namespace ChessBurger.GUI
         public GameObjectDisplayer(GameObjectID objectID)
         {
             _object = GameObjectFactory.CreateObject(objectID);
+            if (objectID == GameObjectID.BACKGROUND)
+            {
+                _object.GetSprite.SendLayerToBack(-5);
+            }
         }
 
         public void Display()
         {
             if (_object.IsID(GameObjectID.BOARD))
-            {
+            {   
                 DisplayBoardIndex();
             }
             SplashKit.DrawSprite(_object.GetSprite, _object.X, _object.Y);

@@ -1,6 +1,7 @@
 ﻿using ChessBurger.MoveValidator.ValidatorCreator;
 using ChessBurger.MoveValidator;
 using System.Collections.Generic;
+using System;
 using ChessBurger.GameComponents.Pieces;
 
 namespace ChessBurger.Game.GameCommand
@@ -30,10 +31,11 @@ namespace ChessBurger.Game.GameCommand
             _diagonalBlockValidator.SetNextValidator(_linearBlockValidator);
             _linearBlockValidator.SetNextValidator(_defaultValidator);
             _defaultValidator.SetNextValidator(_pawnCaptureValidator);
-            _castleMoveValidator.SetNextValidator(_checkValidator);
         } 
         public CommandStatus Execute()
         {
+            CommandStatus status = CommandStatus.SUCCESSFUL;
+
             for (int i = 0; i < _activePieces.Count; i++)
             {
                 _diagonalBlockValidator.ValidCheck(_activePieces[i], _activePieces);
@@ -42,7 +44,15 @@ namespace ChessBurger.Game.GameCommand
             {
                 _castleMoveValidator.ValidCheck(_activePieces[i], _activePieces);
             }
-            return CommandStatus.SUCCESSFUL;
+            for (int i = 0; i < _activePieces.Count; i++)
+            {
+                status = _checkValidator.ValidCheck(_activePieces[i], _activePieces);
+                if (status != CommandStatus.SUCCESSFUL)
+                {
+                    return status;
+                }
+            }
+            return status;
         }
     }
 }

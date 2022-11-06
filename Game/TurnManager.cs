@@ -23,7 +23,18 @@ namespace ChessBurger.Game
             }
         }
 
-        // set the next turn
+        public Player CurrentPlayer
+        {
+            get 
+            { 
+                if (_curTurn == GameState.WHITE_TURN)
+                {
+                    return _whitePlayer;
+                }
+                return _blackPlayer; 
+            }
+        }
+
         public void SetNextTurn()
         {
             if (_curTurn == GameState.WHITE_TURN)
@@ -36,17 +47,5 @@ namespace ChessBurger.Game
             }
         }
 
-        // return the current player making the move
-        public Player CurrentPlayer
-        {
-            get 
-            { 
-                if (_curTurn == GameState.WHITE_TURN)
-                {
-                    return _whitePlayer;
-                }
-                return _blackPlayer; 
-            }
-        }
     }
 }

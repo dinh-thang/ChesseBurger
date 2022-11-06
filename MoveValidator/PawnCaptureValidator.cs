@@ -1,4 +1,5 @@
-﻿using ChessBurger.GameComponents;
+﻿using ChessBurger.Game.GameCommand;
+using ChessBurger.GameComponents;
 using ChessBurger.GameComponents.Pieces;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace ChessBurger.MoveValidator
     public class PawnCaptureValidator : DefaultValidator
     {
         // check for en passant and diagonal capture
-        public override void ValidCheck(Piece currentPiece, List<Piece> activePieces)
+        public override CommandStatus ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
             if (currentPiece.IsID(GameComponents.GameObjectID.WHITE_PAWN) || currentPiece.IsID(GameComponents.GameObjectID.BLACK_PAWN))
             {
@@ -59,6 +60,7 @@ namespace ChessBurger.MoveValidator
             {
                 _nextValidator.ValidCheck(currentPiece, activePieces);
             }
+            return CommandStatus.SUCCESSFUL;
         }
     }
 }

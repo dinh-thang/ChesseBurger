@@ -5,6 +5,7 @@ namespace ChessBurger.GameComponents.Pieces
 {
     public abstract class Piece : GameObject
     {
+        private bool _isSelected;
         private bool _isPin;
         private List<Cell> _possibleMoves;
         private bool _isWhite;
@@ -35,6 +36,18 @@ namespace ChessBurger.GameComponents.Pieces
         public virtual bool UseCastleValidator
         {
             get { return false; }
+        }
+
+        public bool Selected
+        {
+            set
+            {
+                _isSelected = value;
+            }
+            get
+            {
+                return _isSelected;
+            }
         }
 
         public bool Pin

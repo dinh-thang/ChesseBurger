@@ -4,7 +4,6 @@ using ChessBurger.GameComponents;
 using ChessBurger.Ultilities;
 using ChessBurger.lib;
 using System.Collections.Generic;
-using System;
 
 namespace ChessBurger.Game
 {
@@ -14,6 +13,7 @@ namespace ChessBurger.Game
         BLACK_WON,
         WHITE_TURN,
         BLACK_TURN,
+        DRAW,
         MENU
     }
 
@@ -29,8 +29,9 @@ namespace ChessBurger.Game
         // Game objects
         private List<Piece> _activePieces;
         // Turn manager
-        private TurnManager _moveTurn;        
+        private TurnManager _moveTurn;
         // commands set up
+        private CommandStatus _gameEnded;
         private CommandStatus _commandStat = CommandStatus.NOT_SUCCESSFUL;
         private ICommand _validateCommand;
         private ICommand _setPieces;
@@ -91,6 +92,9 @@ namespace ChessBurger.Game
                     _moveTurn.CurrentPlayer.SetCommand(_choosePieceCommand);
 
                     _commandStat = _moveTurn.CurrentPlayer.ExecuteCommand();
+
+                    _display = new DisplayCommand(_activePieces);
+                    _display.Execute();
                 }
                 else if (SplashKit.MouseClicked(MouseButton.LeftButton) && _commandStat == CommandStatus.SUCCESSFUL)
                 {
@@ -113,13 +117,26 @@ namespace ChessBurger.Game
 
                     _validateCommand = new ValidateCommand(_activePieces);
                     _moveTurn.CurrentPlayer.SetCommand(_validateCommand);
-                    _moveTurn.CurrentPlayer.ExecuteCommand();
+                    _gameEnded = _moveTurn.CurrentPlayer.ExecuteCommand();
+                    Endgame();
                 }
 
 
                 // insert code here
                 SplashKit.RefreshScreen();
             } while (!_window.CloseRequested);
+        }
+
+        private void Endgame()
+        {
+            if (_gameEnded == CommandStatus.WHITE_CHECKMATED)
+            {
+                SplashKit.DrawText("white lost", Color.Black, 500, 500);
+            }
+            else if (_gameEnded == CommandStatus.BLACK_CHECKMATED)
+            {
+                SplashKit.DrawText("black lost", Color.Black, 500, 500);
+            }
         }
     }
 }

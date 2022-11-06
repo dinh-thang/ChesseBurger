@@ -19,6 +19,8 @@ namespace ChessBurger.GameComponents
         BOARD = 12,
         UPPER_BUN = 13,
         UNDER_BUN = 14,
+        SELECTED_SQUARE = 15,
+        BACKGROUND 
     }
 
     public abstract class GameObject
@@ -53,28 +55,11 @@ namespace ChessBurger.GameComponents
             set { _y = value; }
         }
 
-        // return object's bitmap image
         public Bitmap GetBitmap
         {
             get { return _bmp; }
         }
 
-        // return bitmap created with the full path
-        private Bitmap CreateBitmap()
-        {
-            return SplashKit.LoadBitmap(((int)_objectID).ToString(), _fullImgPath);
-        }
-
-        // return full path to image
-        abstract public string CreateImagePath();
-
-        // create sprite
-        public virtual Sprite GenerateSprite()
-        {
-            return SplashKit.CreateSprite(GetBitmap);
-        }
-
-        // return sprite
         public Sprite GetSprite
         {
             get
@@ -82,8 +67,17 @@ namespace ChessBurger.GameComponents
                 return _sprite;
             }
         }
+        
+        private Bitmap CreateBitmap()
+        {
+            return SplashKit.LoadBitmap(((int)_objectID).ToString(), _fullImgPath);
+        }
 
-        // check gameobject id
+        public virtual Sprite GenerateSprite()
+        {
+            return SplashKit.CreateSprite(GetBitmap);
+        }
+
         public bool IsID(GameObjectID id)
         {
             if (id == _objectID)
@@ -92,5 +86,7 @@ namespace ChessBurger.GameComponents
             }
             return false;
         }
+
+        abstract public string CreateImagePath();
     }
 }

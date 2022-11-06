@@ -1,5 +1,4 @@
 ﻿using ChessBurger.MoveExplorer;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,6 +40,17 @@ namespace ChessBurger.GameComponents.Pieces
             return false;
         }
         
+        // remove all move execept 1
+        public void ClearPossibleMovesExcept(Cell cell)
+        {
+            if (_possibleMoves.Contains(cell))
+            {
+                _possibleMoves.Clear();
+                _possibleMoves.Add(cell);
+            }
+
+        }
+
         // reset possible moves
         public void ClearPossibleMoves()
         {

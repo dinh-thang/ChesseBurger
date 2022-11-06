@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using ChessBurger.GameComponents.Pieces;
 using ChessBurger.GameComponents;
+using System.ComponentModel.Design;
+using ChessBurger.Game.GameCommand;
 
 namespace ChessBurger.MoveValidator
 {
@@ -15,7 +17,7 @@ namespace ChessBurger.MoveValidator
         }
 
         // remove any move that contain a same color piece
-        public virtual void ValidCheck(Piece currentPiece, List<Piece> activePieces)
+        public virtual CommandStatus ValidCheck(Piece currentPiece, List<Piece> activePieces)
         {
             // adding illegal moves to a list
             _illegalMove = new List<Cell>();
@@ -28,7 +30,7 @@ namespace ChessBurger.MoveValidator
                 }
             }
             // if a move in possible moves is in the illegal list => remove it
-            for (int i = 0; i < _illegalMove.Count - 1; i++)
+            for (int i = 0; i < _illegalMove.Count; i++)
             {
                 if (currentPiece.MoveManager.MoveExist(_illegalMove[i]))
                 {
@@ -41,6 +43,7 @@ namespace ChessBurger.MoveValidator
             {
                 _nextValidator.ValidCheck(currentPiece, activePieces);
             }
+            return CommandStatus.SUCCESSFUL;
         }
     }
 }
